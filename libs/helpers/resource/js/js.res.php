@@ -22,10 +22,13 @@ echo <<<EOF
 
 \$etagHeader = ( isset( \$_SERVER['HTTP_IF_NONE_MATCH'] ) ? trim( \$_SERVER['HTTP_IF_NONE_MATCH'] ) : false );
 
+\$expireTime = 31536000;
+
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', \$lastModified ) . ' GMT' );
 header( 'Etag: ' . \$etagFile );
 header( 'Cache-Control: public' );
 header( 'Content-type: text/javascript;' );
+header('Expires: '.gmdate('D, d M Y H:i:s', time() + \$expireTime).' GMT');
 
 //check if page has changed. If not, send 304 and exit
 if ( \$ifModifiedSince == \$lastModified || \$etagHeader == \$etagFile ) {

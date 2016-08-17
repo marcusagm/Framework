@@ -93,8 +93,12 @@ class Dispatcher {
 		$Mapper			= Mapper::getInstance();
 
 		$parseBase		= parse_url( $ConfigCore->getAppBaseUrl() );
-		if( $parseBase['host'] !== $this->getHost() ) {
-			$url = $this->getScheme() . '://' . $parseBase['host'] . $this->getUri();
+		if( $parseBase['host'] !== $this->getHost() || (isset($parseBase['scheme']) === true && $parseBase['scheme'] === 'https' && $_SERVER['HTTPS'] !== 'on') ) {
+            if (isset($parseBase['scheme']) === true) {
+                $url = $parseBase['scheme'] . '://' . $parseBase['host'] . $this->getUri();
+            } else {
+                $url = $this->getScheme() . '://' . $parseBase['host'] . $this->getUri();
+            }
 
 			header( 'HTTP/1.1 301 Moved Permanently' );
 			header( 'Location: ' . $url );
