@@ -175,30 +175,32 @@ class Mapper {
 			$params		= explode('/', $url);
 			// Inicia o mapeamento.
 			// Verifica se utiliza sistema de tradução.
-			if( $ConfigCore->getUseTranslations() === true ) {
-				$language = array_shift( $params );
-				$this->setLanguage($language);
-			}
+            if (count($params) > 0 && strpos($params[0], '?') === false) {
+                if( $ConfigCore->getUseTranslations() === true ) {
+                    $language = array_shift( $params );
+                    $this->setLanguage($language);
+                }
 
-			$modules = $ConfigRoutes->getModules();
-			if( count( $modules ) > 0 ) {
-				$module = current( $params );
-				if( in_array( $module, $modules ) ) {
-					$this->setModule( $module );
-					array_shift( $params );
-				}
-			}
+                $modules = $ConfigRoutes->getModules();
+                if( count( $modules ) > 0 ) {
+                    $module = current( $params );
+                    if( in_array( $module, $modules ) ) {
+                        $this->setModule( $module );
+                        array_shift( $params );
+                    }
+                }
 
-			// Obtem informação sobre o controller a ser chamado.
-			$controller = array_shift( $params );
-			$this->setController($controller);
+                // Obtem informação sobre o controller a ser chamado.
+                $controller = array_shift( $params );
+                $this->setController($controller);
 
-			// Obtem o nome do método.
-			$action = array_shift( $params );
-			$this->setAction($action);
+                // Obtem o nome do método.
+                $action = array_shift( $params );
+                $this->setAction($action);
 
-			// Obtem os parametros que serão informados ao método.
-			$this->setParams($params);
+                // Obtem os parametros que serão informados ao método.
+                $this->setParams($params);
+            }
 		}
 	}
 
