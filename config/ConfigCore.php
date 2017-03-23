@@ -20,6 +20,10 @@
  * @version 1.0
  */
 class ConfigCore extends Config {
+    /**
+     *
+     * @return ConfigCore
+     */
 	public static function getInstance() {
 		return parent::getInstance(__CLASS__);
 	}

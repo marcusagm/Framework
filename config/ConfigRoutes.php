@@ -31,7 +31,7 @@ class ConfigRoutes extends Config {
 	 * cria e armazena no respectivo atributo. Este método é uma parte da
 	 * implementação do padrão de projeto Singleton.
 	 *
-	 * @return object
+	 * @return ConfigRoutes
 	 */
 	public static function getInstance() {
 		return parent::getInstance(__CLASS__);

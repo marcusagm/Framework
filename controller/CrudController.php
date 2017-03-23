@@ -418,9 +418,11 @@ abstract class CrudController extends Controller {
 			$this->afterSave( $object );
 
 			$this->getAjaxReturn( true, 'created' );
+			Session::setVar('flash-error', false);
 			Session::setVar('flash-message', $this->message['created']);
 		} catch ( FwException $e ) {
 			$this->getAjaxReturn( false, 'error' );
+			Session::setVar('flash-error', true);
 			Session::setVar('flash-message', $this->message['error']);
 		}
 		if( $this->module === false ) {
@@ -492,9 +494,11 @@ abstract class CrudController extends Controller {
 			$this->afterSave( $object );
 
 			$this->getAjaxReturn( true, 'updated' );
+			Session::setVar('flash-error', false);
 			Session::setVar('flash-message', $this->message['updated']);
 		} catch ( FwException $e ) {
 			$this->getAjaxReturn( false, 'error' );
+			Session::setVar('flash-error', true);
 			Session::setVar('flash-message', $this->message['error']);
 		}
 		if( $this->module === false ) {
@@ -537,9 +541,11 @@ abstract class CrudController extends Controller {
 			$this->afterDelete( $Model );
 
 			$this->getAjaxReturn( true, 'deleted' );
+			Session::setVar('flash-error', false);
 			Session::setVar('flash-message', $this->message['deleted']);
 		} catch ( FwException $e ) {
 			$this->getAjaxReturn( false, 'error' );
+			Session::setVar('flash-error', true);
 			Session::setVar('flash-message', $this->message['error']);
 		}
 		if( $this->module === false ) {
@@ -578,9 +584,11 @@ abstract class CrudController extends Controller {
 			}
 
 			$this->getAjaxReturn( true, 'allDeleted' );
+			Session::setVar('flash-error', false);
 			Session::setVar('flash-message', $this->message['allDeleted']);
 		} else {
 			$this->getAjaxReturn( false, 'noRecordsSelected' );
+			Session::setVar('flash-error', true);
 			Session::setVar('flash-message', $this->message['noRecordsSelected']);
 		}
 		if( $this->module === false ) {

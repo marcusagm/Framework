@@ -26,7 +26,7 @@ class ConfigDatabase extends Config {
 	 * cria e armazena no respectivo atributo. Este método é uma parte da
 	 * implementação do padrão de projeto Singleton.
 	 *
-	 * @return object
+	 * @return ConfigDatabase
 	 */
 	public static function getInstance() {
 		return parent::getInstance(__CLASS__);
