@@ -19,7 +19,8 @@
  * @category Helpers
  * @version 1.0
  */
-class UrlMaker {
+class UrlMaker
+{
 
     /**
      * Monta uma URL completa para uma action informada pelos atributos.
@@ -30,15 +31,16 @@ class UrlMaker {
      * @param string $module Nome do módulo caso houver.
      * @return string Retorna uma URL completa montada.
      */
-	public static function toAction( $controller, $action = null, $params = array(), $module = null ) {
-		$app = ConfigCore::getInstance();
-		$return = $app->getAppBaseUrl();
-		$return .= $module != null ? $module . '/' : '';
-		$return .= $controller . '/';
-		$return .= $action != null ? $action . '/' : '';
-		$return .= count( $params ) > 0 ? join( '/', $params ) : '';
-		return $return;
-	}
+    public static function toAction($controller, $action = null, $params = array(), $module = null)
+    {
+        $app = ConfigCore::getInstance();
+        $return = $app->getAppBaseUrl();
+        $return .= $module != null ? $module . '/' : '';
+        $return .= $controller . '/';
+        $return .= $action != null ? $action . '/' : '';
+        $return .= count($params) > 0 ? join('/', $params) : '';
+        return $return;
+    }
 
     /**
      * Monta uma URL completa para uma action informada pelos atributos.
@@ -51,15 +53,16 @@ class UrlMaker {
      * @param string $params Parâmetros a action deve receber.
      * @return string Retorna uma URL completa montada.
      */
-	public static function toModuleAction( $module, $controller, $action = null, $params = array() ) {
-		$app = ConfigCore::getInstance();
-		$return = $app->getAppBaseUrl();
-		$return .= $module . '/';
-		$return .= $controller . '/';
-		$return .= $action != null ? $action . '/' : '';
-		$return .= count( $params ) > 0 ? join( '/', $params ) : '';
-		return $return;
-	}
+    public static function toModuleAction($module, $controller, $action = null, $params = array())
+    {
+        $app = ConfigCore::getInstance();
+        $return = $app->getAppBaseUrl();
+        $return .= $module . '/';
+        $return .= $controller . '/';
+        $return .= $action != null ? $action . '/' : '';
+        $return .= count($params) > 0 ? join('/', $params) : '';
+        return $return;
+    }
 
     /**
      * Monta uma URL completa baseada em uma rota.
@@ -72,29 +75,29 @@ class UrlMaker {
      * @param string $language Linguagem utilizada pela rota.
      * @return string Retorna uma URL completa montada.
      */
-	public static function toRoute( $route, $controller = null, $action = null, $params = array(), $module = null, $language = null ) {
-		$app = ConfigCore::getInstance();
-		$routes = ConfigRoutes::getInstance();
+    public static function toRoute($route, $controller = null, $action = null, $params = array(), $module = null, $language = null)
+    {
+        $app = ConfigCore::getInstance();
+        $routes = ConfigRoutes::getInstance();
 
-		$routeRule = $routes->getRoute( $route );
+        $routeRule = $routes->getRoute($route);
 
-		$keywords = array(
-			':language',
-			':module',
-			':controller',
-			':action',
-			':params'
-		);
+        $keywords = array(
+            ':language',
+            ':module',
+            ':controller',
+            ':action',
+            ':params'
+        );
 
-		$keywordsPattern = array(
-			$language,
-			$module,
-			$controller,
-			$action,
-			join( '/', $params )
-		);
+        $keywordsPattern = array(
+            $language,
+            $module,
+            $controller,
+            $action,
+            join('/', $params)
+        );
 
-		return $app->getAppBaseUrl() . str_replace( $keywords, $keywordsPattern, $routeRule['path'] );
-	}
-
+        return $app->getAppBaseUrl() . str_replace($keywords, $keywordsPattern, $routeRule['path']);
+    }
 }

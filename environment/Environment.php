@@ -23,7 +23,8 @@
  * @category Core
  * @version 1.0
  */
-class Environment {
+class Environment
+{
 	/**
 	 * Nome do ambiente.
 	 *
@@ -46,7 +47,8 @@ class Environment {
 	 * @param string $environment
 	 * @return void
 	 */
-	public static function initialize( $environment ) {
+	public static function initialize( $environment )
+    {
 		$ConfigDatabase		= ConfigDatabase::getInstance();
 		$config				= $ConfigDatabase->getDatabase( $environment );
 		if( $config !== false ) {
@@ -68,7 +70,8 @@ class Environment {
 	 *
 	 * @return Database Instância da conexão com o banco de dados
 	 */
-	public static function getDatabase () {
+	public static function getDatabase ()
+    {
 		return self::$database;
 	}
 }

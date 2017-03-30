@@ -22,37 +22,85 @@
  * @category Configurations
  * @version 1.0
  */
-class ConfigRoutes extends Config {
-	private $_routes = array();
-	private $_modules = array();
+class ConfigRoutes extends Config
+{
 
-	public function addRoute( $name, $path, $controller = null, $action = null, $module = null, $prefix = null ) {
-		if ( substr( $path, 0, 1 ) == '/' ) {
-			$path = substr( $path, 1 );
-		}
+    /**
+     *
+     * @var array
+     */
+    private $_routes = array();
 
-		$this->_routes[$name] = array (
-			'path'			=> $path,
-			'controller'	=> $controller,
-			'action'		=> $action,
-			'module'		=> $module,
-			'prefix'		=> $prefix
-		);
-	}
+    /**
+     *
+     * @var array
+     */
+    private $_modules = array();
 
-	public function addModule( $name ) {
-		$this->_modules[] = $name;
-	}
+    /**
+     *
+     * @param type $name
+     * @param type $path
+     * @param type $controller
+     * @param type $action
+     * @param type $module
+     * @param type $prefix
+     */
+    public function addRoute(
+        $name,
+        $path,
+        $controller = null,
+        $action = null,
+        $module = null,
+        $prefix = null
+    ) {
+        if (substr($path, 0, 1) == '/') {
+            $path = substr($path, 1);
+        }
 
-	public function getModules() {
-		return $this->_modules;
-	}
+        $this->_routes[$name] = array(
+            'path' => $path,
+            'controller' => $controller,
+            'action' => $action,
+            'module' => $module,
+            'prefix' => $prefix
+        );
+    }
 
-	public function getRoutes() {
-		return $this->_routes;
-	}
+    /**
+     *
+     * @param string $name
+     */
+    public function addModule($name)
+    {
+        $this->_modules[] = $name;
+    }
 
-	public function getRoute( $name ) {
-		return $this->_routes[$name];
-	}
+    /**
+     *
+     * @return array
+     */
+    public function getModules()
+    {
+        return $this->_modules;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->_routes;
+    }
+
+    /**
+     *
+     * @param string $name
+     * @return array
+     */
+    public function getRoute($name)
+    {
+        return $this->_routes[$name];
+    }
 }

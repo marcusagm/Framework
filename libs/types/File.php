@@ -18,53 +18,96 @@
  * @category Types
  * @version 1.0
  */
-class File {
-	private $_path;
+class File
+{
 
-	public function __construct ( $path ) {
-		self::isValid( $path );
+    private $_path;
 
-		if ( is_file($path) )
-			$this->_path = $path;
-		else
-			throw 'O arquivo informado não é válido ou não existe.';
-	}
-	public function __destruct () {}
+    public function __construct($path)
+    {
+        self::isValid($path);
 
-	/**
-	 * Método mágico para retornar e utilizar o caminho do arquivos como string.
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-		return $this->_path;
-	}
+        if (is_file($path)) {
+            $this->_path = $path;
+        } else {
+            throw 'O arquivo informado não é válido ou não existe.';
+        }
+    }
 
-	public function open () {}
-	public function close () {}
-	public function delete() {}
-	public function rename( $name ) {
-		rename( $this->_path, $name );
-	}
+    public function __destruct()
+    {
 
-	public function getType() {}
-	public function getMimeType() {}
+    }
 
-	public function getContents() {}
-	public function setContents() {}
-	public function addContents() {}
+    /**
+     * Método mágico para retornar e utilizar o caminho do arquivos como string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->_path;
+    }
 
-	public static function isValid( $path ) {
-		self::_checkSecurity( $path );
-		if( file_exists( $path ) && is_file($path) )
-			return true;
-		return false;
-	}
+    public function open()
+    {
 
-	private static function _checkSecurity( $path ) {
-		if( is_string($path) && preg_match('/[^a-z0-9\\/\\\\_.-]/i', $path ) ) {
-			throw new FwException( 'O caminho "'. $path . '" contém caracteres inválidos.' );
-		}
-		return true;
-	}
+    }
+
+    public function close()
+    {
+
+    }
+
+    public function delete()
+    {
+
+    }
+
+    public function rename($name)
+    {
+        rename($this->_path, $name);
+    }
+
+    public function getType()
+    {
+
+    }
+
+    public function getMimeType()
+    {
+
+    }
+
+    public function getContents()
+    {
+
+    }
+
+    public function setContents()
+    {
+
+    }
+
+    public function addContents()
+    {
+
+    }
+
+    public static function isValid($path)
+    {
+        self::_checkSecurity($path);
+        if (file_exists($path) && is_file($path)) {
+            return true;
+        }
+        return false;
+    }
+
+    private static function _checkSecurity($path)
+    {
+        if (is_string($path) && preg_match('/[^a-z0-9\\/\\\\_.-]/i', $path)) {
+            throw new FwException('O caminho "' . $path . '" contém caracteres inválidos.');
+        }
+        return true;
+    }
 }

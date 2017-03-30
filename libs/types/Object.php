@@ -18,15 +18,20 @@
  * @category Types
  * @version 1.0
  */
-class Object  {
-	protected $_app = null;
-	protected $App = null;
+class Object
+{
 
-	function __construct() {
-		$this->_app = ConfigCore::getInstance();
-		$this->App = ConfigCore::getInstance();
-	}
+    protected $_app = null;
+    protected $App = null;
 
-	function __destruct() {
-	}
+    function __construct()
+    {
+        $this->_app = ConfigCore::getInstance();
+        $this->App = ConfigCore::getInstance();
+    }
+
+    function __destruct()
+    {
+
+    }
 }

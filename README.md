@@ -70,9 +70,9 @@ foi utilizado o layout do arquivo `system.lay.php`, veja:
 ```php
 class IndexController extends Controller
 {
-	public function index()
+    public function index()
     {
-	}
+    }
 
     public function login()
     {
@@ -118,11 +118,11 @@ escrever uma classe da seguinte maneira:
 class ContactSubject extends Model
 {
     /**
-	 * Guarda o nome da da tabela do banco de dados usada pelo modelo.
-	 *
-	 * @var string
-	 */
-	protected $_tableName = 'contact_subject';
+     * Guarda o nome da da tabela do banco de dados usada pelo modelo.
+     *
+     * @var string
+     */
+    protected $_tableName = 'contact_subject';
 }
 ```
 
@@ -201,9 +201,9 @@ métodos necessários, que podem ser complementados para casos específicos.
 // Implementação de um Controller comum
 class IndexController extends Controller
 {
-	public function index()
+    public function index()
     {
-	}
+    }
 }
 
 // Implemetação de um Controller para implementações de CRUDs
@@ -232,10 +232,10 @@ Passando um valor para a variável "message" para a view "index.frm.php":
 ```php
 class IndexController extends Controller
 {
-	public function index()
+    public function index()
     {
         $this->view->message = 'Olá mundo!';
-	}
+    }
 }
 ```
 
@@ -258,23 +258,23 @@ recurso para aproveitar views de formulários por exemplo.
 ```php
 class CategoryController extends Controller
 {
-	public function add()
+    public function add()
     {
         // Aproveita a view de um formulário
         $this->view->name = 'form';
 
         // Passa a váriavel record vazia para a view saber preencher os campos.
         $this->view->record = null;
-	}
+    }
 
-	public function edit($id)
+    public function edit($id)
     {
         $this->view->name = 'form';
 
         // Passa a váriavel record com um objeto para a view conseguir preencher
         // os campos.
         $this->view->record = Category($id);
-	}
+    }
 }
 ```
 

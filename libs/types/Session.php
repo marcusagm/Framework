@@ -18,51 +18,63 @@
  * @category Types
  * @version 1.0
  */
-class Session {
+class Session
+{
 
-	private function __construct() {
-	}
+    private function __construct()
+    {
 
-	private function __clone() {
-	}
+    }
 
-	public static function setVar( $name, $value ) {
-		self::init();
-		$_SESSION[$name] = $value;
-		self::close();
-	}
+    private function __clone()
+    {
 
-	public static function deleteVar( $name ) {
-		self::init();
-		unset( $_SESSION[$name] );
-		self::close();
-	}
+    }
 
-	public static function getVar( $name ) {
-		if( isset( $_SESSION[$name] ) ) {
-			return $_SESSION[$name];
-		}
+    public static function setVar($name, $value)
+    {
+        self::init();
+        $_SESSION[$name] = $value;
+        self::close();
+    }
 
-		return false;
+    public static function deleteVar($name)
+    {
+        self::init();
+        unset($_SESSION[$name]);
+        self::close();
+    }
+
+    public static function getVar($name)
+    {
+        if (isset($_SESSION[$name])) {
+            return $_SESSION[$name];
+        }
+
+        return false;
 //		throw new FwException( 'A variável de sessão "' . $name .
 //								'" não existe.' );
-	}
+    }
 
-	public static function init() {
-		session_start();
-		//session_regenerate_id();
-	}
+    public static function init()
+    {
+        session_start();
+        //session_regenerate_id();
+    }
 
-	public static function destroy() {
-		session_unset();
-		session_destroy();
-	}
+    public static function destroy()
+    {
+        session_unset();
+        session_destroy();
+    }
 
-	public static function close() {
-		session_write_close();
-	}
+    public static function close()
+    {
+        session_write_close();
+    }
 
-	public static function started() {
-		return isset($_SESSION) && session_id();
-	}
+    public static function started()
+    {
+        return isset($_SESSION) && session_id();
+    }
 }
