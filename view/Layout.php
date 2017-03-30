@@ -471,6 +471,12 @@ class Layout extends Object {
 		return $return;
 	}
 
+    /**
+     * Adiciona uma partial ao layout.
+     *
+     * @param string $name Nome da partial.
+     * @param array $params Variaveis que devem ser passadas para a partial.
+     */
 	public function addPartial( $name, $params = array() ) {
 		extract($params);
 		$name = trim($name);

@@ -52,8 +52,9 @@
 		define( 'SYSDIR', 'apps' );
 	}
 
-	if ( !defined( 'SYSROOT') )
+	if ( !defined( 'SYSROOT') ) {
 		define( 'SYSROOT', ROOT . DS . SYSDIR . DS );
+    }
 
 	/**
 	 * Constantes de caminho da framework.
@@ -76,7 +77,7 @@
 
 	set_include_path( ROOT );
 	error_reporting(E_ALL & ~E_STRICT);
-	session_start(0);
+	session_start();
 	session_write_close();
 
 	/*

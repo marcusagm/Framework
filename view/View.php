@@ -181,6 +181,13 @@ class View extends Object {
 		echo $this->compressHtml( $buffer );
 	}
 
+    /**
+     * Adiciona uma partial à view.
+     *
+     * @param string $name Nome da partial.
+     * @param string $controller Nome do controller onde está a partial.
+     * @param array $params Variaveis que devem ser passadas para a partial.
+     */
 	public function addPartial( $name, $controller = null, $params = array() ) {
 		extract($params);
 		$name = trim($name);
@@ -188,6 +195,14 @@ class View extends Object {
 		require SYSROOT . 'modules' . DS . $controller . DS . 'views' . DS . $name . '.prt.php';
 	}
 
+    /**
+     * Adiciona uma partial à view.
+     *
+     * @param string $name Nome da partial.
+     * @param string $module Nome do módulo onde está a partial.
+     * @param string $controller Nome do controller onde está a partial.
+     * @param array $params Variaveis que devem ser passadas para a partial.
+     */
 	public function addModulePartial( $name, $module = null, $controller = null, $params = array() ) {
 		extract($params);
 		$name = trim($name);
@@ -196,6 +211,13 @@ class View extends Object {
 		require SYSROOT . 'modules' . DS . $module . DS . $controller . DS . 'views' . DS . $name . '.prt.php';
 	}
 
+    /**
+     * Comprime um código HTML retirando espaços e diminuindo o tamanho da
+     * resposta da requisição.
+     *
+     * @param string $buffer Código a ser comprimido
+     * @return string Código comprimido.
+     */
 	private function compressHtml( $buffer ) {
 		if( $this->_app->getEnvironment() == 'development' ) {
 			return $buffer;

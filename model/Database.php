@@ -129,7 +129,7 @@ class Database  {
 			} else {
 				$this->_driverOptions = array( PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $this->_encoding );
 			}
-
+            
 			$this->_connection = new PDO(	$this->_dsn,
 											$this->_user,
 											$this->_password,
@@ -167,8 +167,9 @@ class Database  {
 	public function getConnection( $name = false ) {
 		// Verifica se existe uma conexão ativa com banco de dados, caso exista, a
 		// retorna, caso contrário dispara uma exceção.
-		if ( $this->_connection !== false )
+		if ( $this->_connection !== false ) {
 			return $this->_connection;
+        }
 		throw new FwException( 'Nenhuma conexão com banco de dados foi iniciada.' );
 	}
 }
