@@ -22,17 +22,6 @@
  */
 class ConfigDatabase extends Config {
 	/**
-	 * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
-	 * cria e armazena no respectivo atributo. Este método é uma parte da
-	 * implementação do padrão de projeto Singleton.
-	 *
-	 * @return object
-	 */
-	public static function getInstance() {
-		return parent::getInstance(__CLASS__);
-	}
-
-	/**
 	 * Adiciona uma nova configuração para conexão com o banco de dados.
 	 *
 	 * @param string $environment Ambiente de trabalho.

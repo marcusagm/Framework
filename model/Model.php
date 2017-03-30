@@ -29,8 +29,18 @@ abstract class Model implements ModelInterface {
 	 */
 	protected $_tableName = null;
 
+    /**
+     * Estrutura da tabela do banco de dados.
+     *
+     * @var string
+     */
 	protected $_schema = null;
 
+    /**
+     * Indica se é uma View do banco de dados.
+     *
+     * @var boolean
+     */
     protected $isView = false;
 
 	/**
@@ -212,14 +222,29 @@ abstract class Model implements ModelInterface {
 									'tabela "' . $this->_tableName . '".' );
 	}
 
+    /**
+     * Serializa o objeto.
+     *
+     * @return array
+     */
 	public function __sleep() {
 		return array( '_tableName', '_schema', '_data', '_primaryKey', '_insert' );
 	}
 
+    /**
+     * Retorna o estado de um objeto serializado.
+     */
 	public function __wakeup() {
 		$this->_table = new Table( $this->_tableName, $this->_schema );
 	}
 
+    /**
+     * Valida um valor de acordo com um campo.
+     *
+     * @param string $field Nome do campo.
+     * @param mixed $value Valor a ser validado.
+     * @return boolean
+     */
 	public function isValid( $field, $value ) {
 		$columnSchema = $this->_table->getColumn($field);
 		$valid = true;
@@ -235,10 +260,20 @@ abstract class Model implements ModelInterface {
 		return $valid;
 	}
 
+    /**
+     * Obtem uma lista com o nome das colunas.
+     *
+     * @return array
+     */
 	public function getColumns() {
 		return array_keys( $this->_table->getSchema() );
 	}
 
+    /**
+     * Obtem um array com a estrutura da tabela do banco de dados.
+     *
+     * @return string
+     */
 	public function getSchema() {
 		return $this->_schema;
 	}
@@ -378,26 +413,56 @@ abstract class Model implements ModelInterface {
 		}
 	}
 
+    /**
+     * Executa uma ação antes de qualquer coisa na inserção de um novo registro.
+     *
+     * @return boolean
+     */
 	protected function beforeInsert() {
 		return true;
 	}
 
-	protected function beforeUpdate() {
-		return true;
-	}
-
-	protected function beforeDelete() {
-		return true;
-	}
-
+    /**
+     * Executa uma ação depois da inserção de um novo registro.
+     *
+     * @return boolean
+     */
 	protected function afterInsert() {
 		return true;
 	}
 
+    /**
+     * Executa uma ação antes de qualquer coisa na atualização de um registro.
+     *
+     * @return boolean
+     */
+	protected function beforeUpdate() {
+		return true;
+	}
+
+    /**
+     * Executa uma ação depois da atualização de um registro.
+     *
+     * @return boolean
+     */
 	protected function afterUpdate() {
 		return true;
 	}
 
+    /**
+     * Executa uma ação antes de qualquer coisa na exclusão de um registro.
+     *
+     * @return boolean
+     */
+	protected function beforeDelete() {
+		return true;
+	}
+
+    /**
+     * Executa uma ação depois da excluir de um registro.
+     *
+     * @return boolean
+     */
 	protected function afterDelete() {
 		return true;
 	}

@@ -20,9 +20,6 @@
  * @version 1.0
  */
 class ConfigCore extends Config {
-	public static function getInstance() {
-		return parent::getInstance(__CLASS__);
-	}
 
 	public function setDebug( $value ) {
 		$this->debug = $value;

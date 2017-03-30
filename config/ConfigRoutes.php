@@ -26,17 +26,6 @@ class ConfigRoutes extends Config {
 	private $_routes = array();
 	private $_modules = array();
 
-	/**
-	 * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
-	 * cria e armazena no respectivo atributo. Este método é uma parte da
-	 * implementação do padrão de projeto Singleton.
-	 *
-	 * @return object
-	 */
-	public static function getInstance() {
-		return parent::getInstance(__CLASS__);
-	}
-
 	public function addRoute( $name, $path, $controller = null, $action = null, $module = null, $prefix = null ) {
 		if ( substr( $path, 0, 1 ) == '/' ) {
 			$path = substr( $path, 1 );

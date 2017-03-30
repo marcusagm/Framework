@@ -21,7 +21,16 @@
  */
 class UrlMaker {
 
-	static function toAction( $controller, $action = null, $params = array(), $module = null ) {
+    /**
+     * Monta uma URL completa para uma action informada pelos atributos.
+     *
+     * @param string $controller Nome do controller.
+     * @param string $action Nome da action.
+     * @param string $params Parâmetros a action deve receber.
+     * @param string $module Nome do módulo caso houver.
+     * @return string Retorna uma URL completa montada.
+     */
+	public static function toAction( $controller, $action = null, $params = array(), $module = null ) {
 		$app = ConfigCore::getInstance();
 		$return = $app->getAppBaseUrl();
 		$return .= $module != null ? $module . '/' : '';
@@ -31,7 +40,18 @@ class UrlMaker {
 		return $return;
 	}
 
-	static function toModuleAction( $module, $controller, $action = null, $params = array() ) {
+    /**
+     * Monta uma URL completa para uma action informada pelos atributos.
+     *
+     * Use para montar URLs onde os controller estão agrupados por um módulo.
+     *
+     * @param string $module Nome do módulo caso houver.
+     * @param string $controller Nome do controller.
+     * @param string $action Nome da action.
+     * @param string $params Parâmetros a action deve receber.
+     * @return string Retorna uma URL completa montada.
+     */
+	public static function toModuleAction( $module, $controller, $action = null, $params = array() ) {
 		$app = ConfigCore::getInstance();
 		$return = $app->getAppBaseUrl();
 		$return .= $module . '/';
@@ -41,7 +61,18 @@ class UrlMaker {
 		return $return;
 	}
 
-	static function toRoute( $route, $controller = null, $action = null, $params = array(), $module = null, $language = null ) {
+    /**
+     * Monta uma URL completa baseada em uma rota.
+     *
+     * @param string $route Nome da rota.
+     * @param string $controller Nome do controller.
+     * @param string $action Nome da action.
+     * @param string $params Parâmetros a action deve receber.
+     * @param string $module Nome do módulo caso houver.
+     * @param string $language Linguagem utilizada pela rota.
+     * @return string Retorna uma URL completa montada.
+     */
+	public static function toRoute( $route, $controller = null, $action = null, $params = array(), $module = null, $language = null ) {
 		$app = ConfigCore::getInstance();
 		$routes = ConfigRoutes::getInstance();
 

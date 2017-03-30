@@ -22,7 +22,7 @@
  * @category Configurations
  * @version 1.0
  */
-class Config {
+abstract class Config {
 	/**
 	 * Armazena a instância de um objeto único desta classe.
 	 *
@@ -63,12 +63,23 @@ class Config {
 	 *
 	 * @return object
 	 */
-	protected static function getInstance( $className ) {
+	protected static function getInstanceObject( $className ) {
 		if(!isset( self::$instances[$className] ) ) {
 			self::$instances[$className] = new $className();
 		}
 
 		return self::$instances[$className];
+	}
+
+    /**
+	 * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
+	 * cria e armazena no respectivo atributo. Este método é uma parte da
+	 * implementação do padrão de projeto Singleton.
+	 *
+	 * @return ConfigDatabase
+	 */
+	public static function getInstance() {
+		return self::getInstanceObject(get_called_class());
 	}
 
 	/**
@@ -94,4 +105,5 @@ class Config {
 		}
 		return false;
 	}
+
 }
