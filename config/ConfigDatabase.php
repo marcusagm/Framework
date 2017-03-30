@@ -20,39 +20,49 @@
  * @category Configurations
  * @version 1.0
  */
-class ConfigDatabase extends Config {
-	/**
-	 * Adiciona uma nova configuração para conexão com o banco de dados.
-	 *
-	 * @param string $environment Ambiente de trabalho.
-	 * @param string $driver Driver de conexão.
-	 * @param string $dsn Caminho e configuração para conexão com o servidor de banco de dados.
-	 * @param string $user Usuário de conexão com o banco de dados.
-	 * @param string $password Senha para conexão com o banco de dados.
-	 * @param string $prefix Prefixo das tabelas utilizadas nas apilicações.
-	 * @param array $driver_options Opções para estrabelecer conexão com o banco de dados.
-	 * @param string $encoding Codificação dos caracteres.
-	 */
-	public function addDatabase( $environment, $driver, $dsn, $user,
-								 $password, $prefix = false, $driver_options = array(),
-								 $encoding = 'utf8' ) {
-		$this->$environment = array(
-			'driver'		=> $driver,
-			'dsn'			=> $dsn,
-			'user'			=> $user,
-			'password'		=> $password,
-			'prefix'		=> $prefix,
-			'driver_options'=> $driver_options,
-			'encoding'		=> $encoding
-		);
-	}
+class ConfigDatabase extends Config
+{
 
-	/**
-	 * Obtem a configuração do ambiente desejado.
-	 *
-	 * @param string $environment Ambiente de trabalho desejado.
-	 */
-	public function getDatabase( $environment ) {
-		return $this->$environment;
-	}
+    /**
+     * Adiciona uma nova configuração para conexão com o banco de dados.
+     *
+     * @param string $environment Ambiente de trabalho.
+     * @param string $driver Driver de conexão.
+     * @param string $dsn Caminho e configuração para conexão com o servidor de banco de dados.
+     * @param string $user Usuário de conexão com o banco de dados.
+     * @param string $password Senha para conexão com o banco de dados.
+     * @param string $prefix Prefixo das tabelas utilizadas nas apilicações.
+     * @param array $driver_options Opções para estrabelecer conexão com o banco de dados.
+     * @param string $encoding Codificação dos caracteres.
+     */
+    public function addDatabase(
+        $environment,
+        $driver,
+        $dsn,
+        $user,
+        $password,
+        $prefix = false,
+        $driver_options = array(),
+        $encoding = 'utf8'
+    ) {
+        $this->$environment = array(
+            'driver' => $driver,
+            'dsn' => $dsn,
+            'user' => $user,
+            'password' => $password,
+            'prefix' => $prefix,
+            'driver_options' => $driver_options,
+            'encoding' => $encoding
+        );
+    }
+
+    /**
+     * Obtem a configuração do ambiente desejado.
+     *
+     * @param string $environment Ambiente de trabalho desejado.
+     */
+    public function getDatabase($environment)
+    {
+        return $this->$environment;
+    }
 }

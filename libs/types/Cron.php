@@ -18,45 +18,56 @@
  * @category Types
  * @version 1.0
  */
-class Cron {
-	private $_connection;
-	private $_path;
-	private $_handle;
-	private $_cronFile;
+class Cron
+{
 
-	function __construct() {
+    private $_connection;
+    private $_path;
+    private $_handle;
+    private $_cronFile;
 
-	}
+    function __construct()
+    {
 
-	public function execute() {
+    }
 
-	}
+    public function execute()
+    {
 
-	public function writeToFile() {
+    }
 
-	}
+    public function writeToFile()
+    {
 
-	public function removeFile() {
+    }
 
-	}
+    public function removeFile()
+    {
 
-	public function appendJob() {
+    }
 
-	}
+    public function appendJob()
+    {
 
-	public function removeJob() {
+    }
 
-	}
+    public function removeJob()
+    {
 
-	public function removeCrontab() {
+    }
 
-	}
+    public function removeCrontab()
+    {
 
-	private function crontabFileExists() {
+    }
 
-	}
+    private function crontabFileExists()
+    {
 
-	private function errorMessage() {
+    }
 
-	}
+    private function errorMessage()
+    {
+
+    }
 }

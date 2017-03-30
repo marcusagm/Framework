@@ -18,38 +18,59 @@
  * @category Types
  * @version 1.0
  */
-class DateTime  {
-	private $format;
-	private $date;
+class DateTime
+{
 
-	public function __construct() {
-	}
+    private $format;
+    private $date;
 
-	public function __get() {
-	}
+    public function __construct()
+    {
 
-	public function __set() {
-	}
+    }
 
-	public function __toString() {
-	}
+    public function __get()
+    {
 
-	public function diff( $date ) {
-	}
+    }
 
-	public function add() {
-	}
+    public function __set()
+    {
 
-	public function sub() {
-	}
+    }
 
-	public function getDateTime( $format ) {
+    public function __toString()
+    {
 
-	}
+    }
 
-	public static function isValid( $date ) {
-	}
+    public function diff($date)
+    {
 
-	function __destruct() {
-	}
+    }
+
+    public function add()
+    {
+
+    }
+
+    public function sub()
+    {
+
+    }
+
+    public function getDateTime($format)
+    {
+
+    }
+
+    public static function isValid($date)
+    {
+
+    }
+
+    function __destruct()
+    {
+
+    }
 }

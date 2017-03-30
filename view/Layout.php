@@ -24,452 +24,466 @@
  * @category Core
  * @version 1.0
  */
-class Layout extends Object {
-	/**
-	 * Layout a ser renderizado.
-	 *
-	 * @var string
-	 */
-	private $layoutName;
+class Layout extends Object
+{
 
-	/**
-	 * Conteúdo da view que será exibida no layout.
-	 *
-	 * @var string
-	 */
-	private $content = null;
+    /**
+     * Layout a ser renderizado.
+     *
+     * @var string
+     */
+    private $layoutName;
 
-	/**
-	 * Indica o titulo para o layout.
-	 *
-	 * @var string
-	 */
-	private $title = null;
+    /**
+     * Conteúdo da view que será exibida no layout.
+     *
+     * @var string
+     */
+    private $content = null;
 
-	/**
-	 * Lista de folhas de estilos que serão utilizados no layout.
-	 *
-	 * @var array
-	 */
-	private $css = array();
+    /**
+     * Indica o titulo para o layout.
+     *
+     * @var string
+     */
+    private $title = null;
 
-	/**
-	 * Lista de javascripts que serão utilizados no layout.
-	 *
-	 * @var array
-	 */
-	private $js = array();
+    /**
+     * Lista de folhas de estilos que serão utilizados no layout.
+     *
+     * @var array
+     */
+    private $css = array();
 
-	/**
-	 * Lista de javascripts que serão utilizados pela view
-	 *
-	 * @var array
-	 */
-	private $jsView = array();
+    /**
+     * Lista de javascripts que serão utilizados no layout.
+     *
+     * @var array
+     */
+    private $js = array();
 
-	/**
-	 * Guarda variáveis que serão passadas para o layout
-	 *
-	 * @var array
-	 */
-	private $_data = array();
+    /**
+     * Lista de javascripts que serão utilizados pela view
+     *
+     * @var array
+     */
+    private $jsView = array();
 
-	/**
-	 * Inicia um layout desejado. Caso nenhum parametro seja informado, o layout
-	 * iniciado será o nomeado "default".
-	 *
-	 * @param string $layout Nome do layout.
-	 * @return void
-	 */
-	public function __construct( $layout = 'default' ) {
-		parent::__construct();
-		$this->layoutName = $layout;
-	}
+    /**
+     * Guarda variáveis que serão passadas para o layout
+     *
+     * @var array
+     */
+    private $_data = array();
 
-	/**
-	 * Método para obter as variáveis utilizadas no layout.
-	 *
-	 * @param string $attribute Nome do atributo.
-	 * @return mixed
-	 */
-	public function __get( $attribute ) {
-		switch ( $attribute ) {
-			case 'layoutName':
-				return $this->layoutName;
-				break;
+    /**
+     * Inicia um layout desejado. Caso nenhum parametro seja informado, o layout
+     * iniciado será o nomeado "default".
+     *
+     * @param string $layout Nome do layout.
+     * @return void
+     */
+    public function __construct($layout = 'default')
+    {
+        parent::__construct();
+        $this->layoutName = $layout;
+    }
 
-			case 'content':
-				return $this->content;
-				break;
+    /**
+     * Método para obter as variáveis utilizadas no layout.
+     *
+     * @param string $attribute Nome do atributo.
+     * @return mixed
+     */
+    public function __get($attribute)
+    {
+        switch ($attribute) {
+            case 'layoutName':
+                return $this->layoutName;
 
-			case 'title':
-				return $this->title;
-				break;
+            case 'content':
+                return $this->content;
 
-			case 'css':
-				return $this->css;
-				break;
+            case 'title':
+                return $this->title;
 
-			case 'js':
-				return $this->js;
-				break;
+            case 'css':
+                return $this->css;
 
-			default:
-				return $this->_data[$attribute];
-				break;
-		}
-	}
+            case 'js':
+                return $this->js;
 
-	/**
-	 * Método para setar os valores das variáveis utilizadas no layout.
-	 *
-	 * @param string $attribute Nome do atributo.
-	 * @param mixed $value Novo valor para o atributo.
-	 * @return void
-	 */
-	public function __set( $attribute, $value ) {
-		switch( $attribute ) {
-			case 'layoutName':
-				if( is_string( $value ) && preg_match( '/^[A-Za-z0-9_-]+$/', $value ) )
-					$this->layoutName = $value;
-				else
-					throw new FwException( 'Nome de layout informado é inválido.' );
-				break;
+            default:
+                return $this->_data[$attribute];
+        }
+    }
 
-			case 'content':
-				$this->content = $value;
-				break;
+    /**
+     * Método para setar os valores das variáveis utilizadas no layout.
+     *
+     * @param string $attribute Nome do atributo.
+     * @param mixed $value Novo valor para o atributo.
+     * @return void
+     */
+    public function __set($attribute, $value)
+    {
+        switch ($attribute) {
+            case 'layoutName':
+                if (is_string($value) && preg_match('/^[A-Za-z0-9_-]+$/', $value)) {
+                    $this->layoutName = $value;
+                } else {
+                    throw new FwException('Nome de layout informado é inválido.');
+                }
+                break;
 
-			case 'title':
-				if( is_string( $value ) )
-					$this->title = $value;
-				else
-					throw new FwException( 'Valor para título do layout inválido.' );
-				break;
+            case 'content':
+                $this->content = $value;
+                break;
 
-			default:
-				$this->_data[$attribute] = $value;
-				break;
-		}
-	}
+            case 'title':
+                if (is_string($value)) {
+                    $this->title = $value;
+                } else {
+                    throw new FwException('Valor para título do layout inválido.');
+                }
+                break;
 
-	public function __isset( $name ) {
-		switch( $name ) {
-			case 'layoutName':
-			case 'content':
-			case 'title':
-				return true;
+            default:
+                $this->_data[$attribute] = $value;
+                break;
+        }
+    }
 
-			default:
-				return isset( $this->_data[ $name ] );
-		}
-	}
+    public function __isset($name)
+    {
+        switch ($name) {
+            case 'layoutName':
+            case 'content':
+            case 'title':
+                return true;
 
-	/**
-	 * Renderiza o layout.
-	 *
-	 * @return void
-	 */
-	public function render() {
-		if( file_exists( SYSROOT . 'layouts' . DS . $this->layoutName . '.lay.php' ) ) {
-			require_once SYSROOT . 'layouts' . DS . $this->layoutName . '.lay.php';
-		} else
-			throw new FwException( 'O Layout requisitado não foi encontrado ou
-									não existe' );
-	}
+            default:
+                return isset($this->_data[$name]);
+        }
+    }
 
-	/**
-	 * Adiciona um CSS ao layout.
-	 *
-	 * @param string $css Nome do arquivo CSS.
-	 * @param string $media Tipo de media que o CSS informado será aplicado.
-	 * @return void
-	 */
-	public function addCss( $css, $media = 'all' ) {
-		$this->css[] = array( 'src' => $css, 'media' => $media );
-	}
+    /**
+     * Renderiza o layout.
+     *
+     * @return void
+     */
+    public function render()
+    {
+        if (file_exists(SYSROOT . 'layouts' . DS . $this->layoutName . '.lay.php')) {
+            require_once SYSROOT . 'layouts' . DS . $this->layoutName . '.lay.php';
+        } else {
+            throw new FwException('O Layout requisitado não foi encontrado ou
+									não existe');
+        }
+    }
 
-	/**
-	 * Remove um CSS do layout.
-	 *
-	 * @param string $css Nome do arquivo CSS.
-	 * @param string $media Tipo de media que o CSS informado será aplicado.
-	 * @return void
-	 */
-	public function removeCss( $css, $media = 'all'  ) {
-		$position	= array_search( array(  'src' => $css,
-											'media' => $media ) , $this->css );
-		if( $position !== false ) {
-			unset( $this->css[$position] );
-		}
-	}
+    /**
+     * Adiciona um CSS ao layout.
+     *
+     * @param string $css Nome do arquivo CSS.
+     * @param string $media Tipo de media que o CSS informado será aplicado.
+     * @return void
+     */
+    public function addCss($css, $media = 'all')
+    {
+        $this->css[] = array('src' => $css, 'media' => $media);
+    }
 
-	/**
-	 * Obtem a lista de CSS formatada em HTML, pronta para a inclusão no layout.
-	 *
-	 * @return string
-	 */
-	public function getCss() {
-		if( $this->_app->getEnvironment() == 'development' ) {
-			$return = '';
-			if( count( $this->css ) > 0 ) {
-				foreach( $this->css as $css ) {
-					$return .= '<link type="text/css" rel="stylesheet" href="';
-					$return .= $this->_app->getAppBaseUrl() . 'css/' . $css['src'];
-					$return .= '" media="' . $css['media'] . '" />';
-				}
-			}
-			return $return;
-		} else {
-			$ds = DIRECTORY_SEPARATOR;
-			$cachePath = SYSROOT . 'public' . $ds . 'cache' . $ds;
-			$cacheFile = $cachePath . 'layout_css_' . $this->layoutName . '.php';
+    /**
+     * Remove um CSS do layout.
+     *
+     * @param string $css Nome do arquivo CSS.
+     * @param string $media Tipo de media que o CSS informado será aplicado.
+     * @return void
+     */
+    public function removeCss($css, $media = 'all')
+    {
+        $position = array_search(array('src' => $css,
+            'media' => $media), $this->css);
+        if ($position !== false) {
+            unset($this->css[$position]);
+        }
+    }
 
-			if( !file_exists( $cacheFile ) ) {
-				$cssContents = '';
-				if( count( $this->css ) > 0 ) {
-					$buffer = '';
-					foreach( $this->css as $css ) {
-						$buffer .= file_get_contents(
-							SYSROOT . 'public' .
-							$ds . 'css' .
-							$ds . $css['src']
-						);
-					}
+    /**
+     * Obtem a lista de CSS formatada em HTML, pronta para a inclusão no layout.
+     *
+     * @return string
+     */
+    public function getCss()
+    {
+        if ($this->_app->getEnvironment() == 'development') {
+            $return = '';
+            if (count($this->css) > 0) {
+                foreach ($this->css as $css) {
+                    $return .= '<link type="text/css" rel="stylesheet" href="';
+                    $return .= $this->_app->getAppBaseUrl() . 'css/' . $css['src'];
+                    $return .= '" media="' . $css['media'] . '" />';
+                }
+            }
+            return $return;
+        } else {
+            $ds = DIRECTORY_SEPARATOR;
+            $cachePath = SYSROOT . 'public' . $ds . 'cache' . $ds;
+            $cacheFile = $cachePath . 'layout_css_' . $this->layoutName . '.php';
 
-					// shorthand hex color codes
-					$buffer = preg_replace('/(?<![\'"])#([0-9a-z])\\1([0-9a-z])\\2([0-9a-z])\\3(?![\'"])/i', '#$1$2$3', $buffer);
+            if (!file_exists($cacheFile)) {
+                $cssContents = '';
+                if (count($this->css) > 0) {
+                    $buffer = '';
+                    foreach ($this->css as $css) {
+                        $buffer .= file_get_contents(
+                            SYSROOT . 'public' .
+                            $ds . 'css' .
+                            $ds . $css['src']
+                        );
+                    }
 
-					// Remove comments
-					$buffer = preg_replace( '/\/\*(.*?)\*\//is', '', $buffer);
+                    // shorthand hex color codes
+                    $buffer = preg_replace('/(?<![\'"])#([0-9a-z])\\1([0-9a-z])\\2([0-9a-z])\\3(?![\'"])/i', '#$1$2$3', $buffer);
 
-					// semicolon/space before closing bracket > replace by bracket
-					$buffer = preg_replace( '/;?\s*}/', '}', $buffer);
+                    // Remove comments
+                    $buffer = preg_replace('/\/\*(.*?)\*\//is', '', $buffer);
 
-					// bracket, colon, semicolon or comma preceeded or followed by whitespace > remove space
-					$buffer = preg_replace( '/^\s*|\s*$/m', '', $buffer);
+                    // semicolon/space before closing bracket > replace by bracket
+                    $buffer = preg_replace('/;?\s*}/', '}', $buffer);
 
-					// Remove whitespace
-					$cssContents = str_replace(array("\r\n", "\r", "\n", "\t"), '', $buffer);
-				}
-				ob_start();
-				include( FWROOT .
-						$ds . 'libs' .
-						$ds . 'helpers' .
-						$ds . 'resource' .
-						$ds . 'css' .
-						$ds . 'css.res.php'
-				);
-				$css = ob_get_contents();
-				ob_end_clean();
+                    // bracket, colon, semicolon or comma preceeded or followed by whitespace > remove space
+                    $buffer = preg_replace('/^\s*|\s*$/m', '', $buffer);
 
-				if( !file_exists( $cachePath ) ) {
-					if( !mkdir( $cachePath, 0775, true ) ) {
-						throw new FwException( 'The cache folder does not exist and cannot be created.' );
-					}
-				}
+                    // Remove whitespace
+                    $cssContents = str_replace(array("\r\n", "\r", "\n", "\t"), '', $buffer);
+                }
+                ob_start();
+                include( FWROOT .
+                    $ds . 'libs' .
+                    $ds . 'helpers' .
+                    $ds . 'resource' .
+                    $ds . 'css' .
+                    $ds . 'css.res.php'
+                    );
+                $css = ob_get_contents();
+                ob_end_clean();
 
-				file_put_contents( $cacheFile  , $css );
-				chmod( $cacheFile , 0644 );
-			}
+                if (!file_exists($cachePath)) {
+                    if (!mkdir($cachePath, 0775, true)) {
+                        throw new FwException('The cache folder does not exist and cannot be created.');
+                    }
+                }
 
-			$return = '';
-			$return .= '<link type="text/css" rel="stylesheet" href="';
-			$return .= $this->_app->getAppBaseUrl() . 'cache/layout_css_' . $this->layoutName . '.php';
-			$return .= '" media="all" />';
-			return $return;
-		}
-	}
+                file_put_contents($cacheFile, $css);
+                chmod($cacheFile, 0644);
+            }
 
-	/**
-	 * Adiciona um script ao layout.
-	 *
-	 * @param string $script Nome do arquivo do script.
-	 * @return void
-	 */
-	public function addJs( $script ) {
-		$this->js[] = $script;
-	}
+            $return = '';
+            $return .= '<link type="text/css" rel="stylesheet" href="';
+            $return .= $this->_app->getAppBaseUrl() . 'cache/layout_css_' . $this->layoutName . '.php';
+            $return .= '" media="all" />';
+            return $return;
+        }
+    }
 
-	/**
-	 * Remove um script do layout.
-	 *
-	 * @param string $script Nome do arquivo do script.
-	 * @return void
-	 */
-	public function removeJs( $script ) {
-		unset( $this->js[$script] );
-	}
+    /**
+     * Adiciona um script ao layout.
+     *
+     * @param string $script Nome do arquivo do script.
+     * @return void
+     */
+    public function addJs($script)
+    {
+        $this->js[] = $script;
+    }
 
-	/**
-	 * Adiciona um script ao layout.
-	 *
-	 * @param string $script Nome do arquivo do script.
-	 * @return void
-	 */
-	public function addViewJs( $script ) {
-		$this->jsView[] = $script;
-	}
+    /**
+     * Remove um script do layout.
+     *
+     * @param string $script Nome do arquivo do script.
+     * @return void
+     */
+    public function removeJs($script)
+    {
+        unset($this->js[$script]);
+    }
 
-	/**
-	 * Remove um script do layout.
-	 *
-	 * @param string $script Nome do arquivo do script.
-	 * @return void
-	 */
-	public function removeViewJs( $script ) {
-		unset( $this->jsView[$script] );
-	}
+    /**
+     * Adiciona um script ao layout.
+     *
+     * @param string $script Nome do arquivo do script.
+     * @return void
+     */
+    public function addViewJs($script)
+    {
+        $this->jsView[] = $script;
+    }
 
-	/**
-	 * Obtem a lista de CSS formatada em HTML, pronta para a inclusão no layout.
-	 *
-	 * @return string
-	 */
-	public function getJs() {
-		$return = '';
-		$return.= $this->getLayoutJsLinks();
-		$return.= $this->getViewJsLinks();
-		return $return;
-	}
+    /**
+     * Remove um script do layout.
+     *
+     * @param string $script Nome do arquivo do script.
+     * @return void
+     */
+    public function removeViewJs($script)
+    {
+        unset($this->jsView[$script]);
+    }
 
-	private function getLayoutJsLinks() {
-		if( $this->_app->getEnvironment() == 'development' ) {
-			$return = '';
-			if( count( $this->js ) > 0 ) {
-				foreach( $this->js as $script ) {
-					$return .= '<script src="';
-					$return .= $this->_app->getAppBaseUrl() . 'scripts/' . $script;
-					$return .= '"></script>';
-				}
-			}
-		} else {
-			$ds = DIRECTORY_SEPARATOR;
-			$cachePath = SYSROOT . 'public' . $ds . 'cache' . $ds;
-			$cacheFile = $cachePath . 'layout_script_' . $this->layoutName . '.php';
+    /**
+     * Obtem a lista de CSS formatada em HTML, pronta para a inclusão no layout.
+     *
+     * @return string
+     */
+    public function getJs()
+    {
+        $return = '';
+        $return.= $this->getLayoutJsLinks();
+        $return.= $this->getViewJsLinks();
+        return $return;
+    }
 
-			if( !file_exists( $cacheFile ) ) {
-				$jsContents = '';
-				if( count( $this->js ) > 0 ) {
-					$buffer = '';
-					foreach( $this->js as $script ) {
-						$buffer .= "\n" . file_get_contents(
-							SYSROOT . 'public' .
-							$ds . 'scripts' .
-							$ds . $script
-						);
-					}
-				}
+    private function getLayoutJsLinks()
+    {
+        if ($this->_app->getEnvironment() == 'development') {
+            $return = '';
+            if (count($this->js) > 0) {
+                foreach ($this->js as $script) {
+                    $return .= '<script src="';
+                    $return .= $this->_app->getAppBaseUrl() . 'scripts/' . $script;
+                    $return .= '"></script>';
+                }
+            }
+        } else {
+            $ds = DIRECTORY_SEPARATOR;
+            $cachePath = SYSROOT . 'public' . $ds . 'cache' . $ds;
+            $cacheFile = $cachePath . 'layout_script_' . $this->layoutName . '.php';
 
-				$buffer = str_replace( "\t", ' ', $buffer);
+            if (!file_exists($cacheFile)) {
+                $jsContents = '';
+                if (count($this->js) > 0) {
+                    $buffer = '';
+                    foreach ($this->js as $script) {
+                        $buffer .= "\n" . file_get_contents(
+                                SYSROOT . 'public' .
+                                $ds . 'scripts' .
+                                $ds . $script
+                        );
+                    }
+                }
+
+                $buffer = str_replace("\t", ' ', $buffer);
                 $buffer = str_replace(array("\r\n", "\r"), "\n", $buffer);
 
-				$buffer = preg_replace( '/^([\'"]).*?(?<!\\\\)\\1/s', '\\0', $buffer );
-				$buffer = preg_replace( '/^\\\\\//', '\\0', $buffer );
-				$buffer = preg_replace( '/^\s*\/\/.*$[\r\n]/m', '', $buffer );
-				$buffer = preg_replace( '/^\/\*.*?\*\//s', '', $buffer );
-				$buffer = preg_replace( '/\/\*(.*?)\*\//is', '', $buffer);
+                $buffer = preg_replace('/^([\'"]).*?(?<!\\\\)\\1/s', '\\0', $buffer);
+                $buffer = preg_replace('/^\\\\\//', '\\0', $buffer);
+                $buffer = preg_replace('/^\s*\/\/.*$[\r\n]/m', '', $buffer);
+                $buffer = preg_replace('/^\/\*.*?\*\//s', '', $buffer);
+                $buffer = preg_replace('/\/\*(.*?)\*\//is', '', $buffer);
 
                 // Tenta remover o comentários de final de linha
-				$buffer = preg_replace( '/\/\/\s?[\s\d\w,\'\-\+\[\]\(\)\|\*"\.@#$%&:]+$/m', '', $buffer);
+                $buffer = preg_replace('/\/\/\s?[\s\d\w,\'\-\+\[\]\(\)\|\*"\.@#$%&:]+$/m', '', $buffer);
 
-				$operators = array(
-					// arithmetic
-					'+', '-', '*', '/', '%', '++', '--', // @todo: slash can be
-					// assignment
-					'=', '+=', '-=', '*=', '/=', '%=',
-					'<<=', '>>=', '>>>=', '&=', '^=', '|=',
-					// bitwise
-					'&', '|', '^', '~', '<<', '>>', '>>>',
-					// comparison
-					'==', '===', '!=', '!==', '>', '<', '>=', '<=',
-					// logical
-					'&&', '||', '!',
-					// string
-					// + and += already added
-					// member
-					'.', '[', ']',
-					// conditional
-					'?', ':',
-					// comma
-					',',
+                $operators = array(
+                    // arithmetic
+                    '+', '-', '*', '/', '%', '++', '--', // @todo: slash can be
+                    // assignment
+                    '=', '+=', '-=', '*=', '/=', '%=',
+                    '<<=', '>>=', '>>>=', '&=', '^=', '|=',
+                    // bitwise
+                    '&', '|', '^', '~', '<<', '>>', '>>>',
+                    // comparison
+                    '==', '===', '!=', '!==', '>', '<', '>=', '<=',
+                    // logical
+                    '&&', '||', '!',
+                    // string
+                    // + and += already added
+                    // member
+                    '.', '[', ']',
+                    // conditional
+                    '?', ':',
+                    // comma
+                    ',',
+                    // function call
+                    '(', ')',
+                    // object literal ({ & } are also used as block delimiter, but
+                    // we can strip whitespace around that too)
+                    '{', '}', ':',
+                    // statement terminator
+                    ';',
+                );
+                $delimiter = array_fill(0, count($operators), '/');
+                $operators = array_map('preg_quote', $operators, $delimiter);
+                $buffer = preg_replace('/^\s*(' . implode('|', $operators) . ')\s/s', '\\1', $buffer);
 
-					// function call
-					'(', ')',
-					// object literal ({ & } are also used as block delimiter, but
-					// we can strip whitespace around that too)
-					'{', '}', ':',
-					// statement terminator
-					';',
-				);
-				$delimiter = array_fill( 0, count($operators), '/' );
-				$operators = array_map( 'preg_quote', $operators, $delimiter );
-				$buffer = preg_replace( '/^\s*('. implode('|', $operators) .')\s/s', '\\1', $buffer );
+                $operators = array_merge($operators, array('else', 'while', 'catch', 'finally', '$'));
+                $buffer = preg_replace('/^([\)\}])(?!(' . implode('|', $operators) . '))/s', '\\1;', $buffer);
 
-				$operators = array_merge( $operators, array('else', 'while', 'catch', 'finally', '$' ) );
-				$buffer = preg_replace( '/^([\)\}])(?!('. implode('|', $operators) .'))/s', '\\1;', $buffer);
-
-				$buffer = preg_replace( '/^\s*\n\s/s', ';', $buffer);
-				$buffer = preg_replace( '/^\s+/ms', '', $buffer);
-				$buffer = preg_replace( '/^;\}/', '}', $buffer);
+                $buffer = preg_replace('/^\s*\n\s/s', ';', $buffer);
+                $buffer = preg_replace('/^\s+/ms', '', $buffer);
+                $buffer = preg_replace('/^;\}/', '}', $buffer);
 
                 $buffer = str_replace(array(" \n", "\n "), "\n", $buffer);
                 $buffer = preg_replace('/\n+/', "\n", $buffer);
 
-				$jsContents = trim($buffer);
+                $jsContents = trim($buffer);
 
-				ob_start();
-				include( FWROOT .
-						$ds . 'libs' .
-						$ds . 'helpers' .
-						$ds . 'resource' .
-						$ds . 'js' .
-						$ds . 'js.res.php'
-				);
-				$script = ob_get_contents();
-				ob_end_clean();
+                ob_start();
+                include( FWROOT .
+                    $ds . 'libs' .
+                    $ds . 'helpers' .
+                    $ds . 'resource' .
+                    $ds . 'js' .
+                    $ds . 'js.res.php'
+                    );
+                $script = ob_get_contents();
+                ob_end_clean();
 
-				if( !file_exists( $cachePath ) ) {
-					if( !mkdir( $cachePath, 0775, true ) ) {
-						throw new FwException( 'The cache folder does not exist and cannot be created.' );
-					}
-				}
+                if (!file_exists($cachePath)) {
+                    if (!mkdir($cachePath, 0775, true)) {
+                        throw new FwException('The cache folder does not exist and cannot be created.');
+                    }
+                }
 
-				file_put_contents( $cacheFile  , $script );
-				chmod( $cacheFile , 0644 );
-			}
+                file_put_contents($cacheFile, $script);
+                chmod($cacheFile, 0644);
+            }
 
-			$return = '';
-			$return .= '<script src="';
-			$return .= $this->_app->getAppBaseUrl() . 'cache/layout_script_' . $this->layoutName . '.php';
-			$return .= '"></script>';
-		}
-		return $return;
-	}
+            $return = '';
+            $return .= '<script src="';
+            $return .= $this->_app->getAppBaseUrl() . 'cache/layout_script_' . $this->layoutName . '.php';
+            $return .= '"></script>';
+        }
+        return $return;
+    }
 
-	private function getViewJsLinks() {
-		$return = '';
-		if( count( $this->jsView ) > 0 ) {
-			foreach( $this->jsView as $script ) {
-				$return .= '<script src="';
-				$return .= $this->_app->getAppBaseUrl() . 'scripts/modules/' . $script;
-				$return .= '"></script>';
-			}
-		}
-		return $return;
-	}
+    private function getViewJsLinks()
+    {
+        $return = '';
+        if (count($this->jsView) > 0) {
+            foreach ($this->jsView as $script) {
+                $return .= '<script src="';
+                $return .= $this->_app->getAppBaseUrl() . 'scripts/modules/' . $script;
+                $return .= '"></script>';
+            }
+        }
+        return $return;
+    }
 
-	public function getViewJs() {
-		$return = '';
-		if( count( $this->jsView ) ) {
-			foreach( $this->jsView as $script ) {
-				$return .= '<script src="';
-				$return .= $this->_app->getAppBaseUrl() . 'scripts/modules/' . $script;
-				$return .= '"></script>';
-			}
-		}
-		return $return;
-	}
+    public function getViewJs()
+    {
+        $return = '';
+        if (count($this->jsView)) {
+            foreach ($this->jsView as $script) {
+                $return .= '<script src="';
+                $return .= $this->_app->getAppBaseUrl() . 'scripts/modules/' . $script;
+                $return .= '"></script>';
+            }
+        }
+        return $return;
+    }
 
     /**
      * Adiciona uma partial ao layout.
@@ -477,9 +491,10 @@ class Layout extends Object {
      * @param string $name Nome da partial.
      * @param array $params Variaveis que devem ser passadas para a partial.
      */
-	public function addPartial( $name, $params = array() ) {
-		extract($params);
-		$name = trim($name);
-		require SYSROOT . 'layouts' . DS . $name . '.prt.php';
-	}
+    public function addPartial($name, $params = array())
+    {
+        extract($params);
+        $name = trim($name);
+        require SYSROOT . 'layouts' . DS . $name . '.prt.php';
+    }
 }

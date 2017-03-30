@@ -19,157 +19,162 @@
  * @category Database
  * @version 1.0
  */
-class Database  {
-	/**
-	 * Driver utilizado para conexão com o banco de dados.
-	 *
-	 * @var string
-	 */
-	private $_driver;
+class Database
+{
 
-	/**
-	 * String de conexão com o endereço do servidor e nome do banco de dados.
-	 *
-	 * @var string
-	 */
-	private $_dsn;
+    /**
+     * Driver utilizado para conexão com o banco de dados.
+     *
+     * @var string
+     */
+    private $_driver;
 
-	/**
-	 * Usuário para conexão com o banco de dados.
-	 *
-	 * @var string
-	 */
-	private $_user;
+    /**
+     * String de conexão com o endereço do servidor e nome do banco de dados.
+     *
+     * @var string
+     */
+    private $_dsn;
 
-	/**
-	 * Senha de conexão com o banco de dados.
-	 *
-	 * @var string
-	 */
-	private $_password;
+    /**
+     * Usuário para conexão com o banco de dados.
+     *
+     * @var string
+     */
+    private $_user;
 
-	/**
-	 * Indica se a conexão é permanente ou não.
-	 *
-	 * @var boolean
-	 */
-	private $_driverOptions;
+    /**
+     * Senha de conexão com o banco de dados.
+     *
+     * @var string
+     */
+    private $_password;
 
-	/**
-	 * Prefixo utilizado nas tabelas da aplicação.
-	 *
-	 * @var string
-	 */
-	private $_prefix;
+    /**
+     * Indica se a conexão é permanente ou não.
+     *
+     * @var boolean
+     */
+    private $_driverOptions;
 
-	/**
-	 * Codificação padrão para a conexão.
-	 *
-	 * @var string
-	 */
-	private $_encoding;
+    /**
+     * Prefixo utilizado nas tabelas da aplicação.
+     *
+     * @var string
+     */
+    private $_prefix;
 
-	/**
-	 * Aramazena a conexão ativa para utilização posterior.
-	 *
-	 * @var PDO
-	 */
-	private $_connection = false;
+    /**
+     * Codificação padrão para a conexão.
+     *
+     * @var string
+     */
+    private $_encoding;
 
-	/**
-	 * Inicia a conexão e todos os atibutos necesários.
-	 *
-	 * @param string $dsn String de conexão com o endereço do servidor e nome do
-	 * banco de dados.
-	 * @param string $user Usuário para conexão com o banco de dados.
-	 * @param string $password Senha de conexão com o banco de dados.
-	 * @param array $driver_options Indica se a conexão é permanente ou não.
-	 * @return void
-	 */
-	public function __construct( $driver, $dsn, $user, $password, $prefix = false, $driver_options = array(), $encoding = 'utf8' ) {
-		// Inicia atributos para conexão.
-		$this->_driver			= $driver;
-		$this->_dsn				= $dsn;
-		$this->_user			= $user;
-		$this->_password		= $password;
-		$this->_prefix			= $prefix;
-		$this->_driverOptions	= $driver_options;
-		$this->_encoding		= $encoding;
+    /**
+     * Aramazena a conexão ativa para utilização posterior.
+     *
+     * @var PDO
+     */
+    private $_connection = false;
 
-		// Chama método de conexão com o banco de dados.
-		$this->connect();
-	}
+    /**
+     * Inicia a conexão e todos os atibutos necesários.
+     *
+     * @param string $dsn String de conexão com o endereço do servidor e nome do
+     * banco de dados.
+     * @param string $user Usuário para conexão com o banco de dados.
+     * @param string $password Senha de conexão com o banco de dados.
+     * @param array $driver_options Indica se a conexão é permanente ou não.
+     * @return void
+     */
+    public function __construct($driver, $dsn, $user, $password, $prefix = false, $driver_options = array(), $encoding = 'utf8')
+    {
+        // Inicia atributos para conexão.
+        $this->_driver = $driver;
+        $this->_dsn = $dsn;
+        $this->_user = $user;
+        $this->_password = $password;
+        $this->_prefix = $prefix;
+        $this->_driverOptions = $driver_options;
+        $this->_encoding = $encoding;
 
-	/**
-	 * Cuida da finalização do objeto limpando toda a memória utilizada e terminando
-	 * as conexões ativas.
-	 *
-	 * @return void
-	 */
-	public function __destruct() {
-		$this->disconnect();
-	}
+        // Chama método de conexão com o banco de dados.
+        $this->connect();
+    }
 
-	/**
-	 * Inicia uma conexão com o banco de dados com as informações passadas durante a
-	 * instanciação de um objeto desta classe.
-	 *
-	 * @return void
-	 */
-	private function connect() {
-		try {
-			// Estabelece conexão com o banco de dados utilizando a abstracão de funções
-			// de conexão com banco de dados do PHP chamada PDO.
-			if(is_array($this->_driverOptions)) {
-				if( isset( $this->_driverOptions[PDO::MYSQL_ATTR_INIT_COMMAND] ) ) {
-					$this->_driverOptions[PDO::MYSQL_ATTR_INIT_COMMAND] .= ";SET NAMES " . $this->_encoding;
-				} else {
-					$this->_driverOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES " . $this->_encoding;
-				}
-			} else {
-				$this->_driverOptions = array( PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $this->_encoding );
-			}
-            
-			$this->_connection = new PDO(	$this->_dsn,
-											$this->_user,
-											$this->_password,
-											$this->_driverOptions );
-		} catch ( FwException $e ) {
+    /**
+     * Cuida da finalização do objeto limpando toda a memória utilizada e terminando
+     * as conexões ativas.
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+        $this->disconnect();
+    }
 
-		}
-	}
+    /**
+     * Inicia uma conexão com o banco de dados com as informações passadas durante a
+     * instanciação de um objeto desta classe.
+     *
+     * @return void
+     */
+    private function connect()
+    {
+        try {
+            // Estabelece conexão com o banco de dados utilizando a abstracão de funções
+            // de conexão com banco de dados do PHP chamada PDO.
+            if (is_array($this->_driverOptions)) {
+                if (isset($this->_driverOptions[PDO::MYSQL_ATTR_INIT_COMMAND])) {
+                    $this->_driverOptions[PDO::MYSQL_ATTR_INIT_COMMAND] .= ";SET NAMES " . $this->_encoding;
+                } else {
+                    $this->_driverOptions[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES " . $this->_encoding;
+                }
+            } else {
+                $this->_driverOptions = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $this->_encoding);
+            }
 
-	/**
-	 * Finaliza a conexão ativa.
-	 *
-	 * @return void
-	 */
-	private function disconnect() {
-		// Finaliza a conexão ativa com o banco de dados.
-		$this->_connection = false;
-	}
+            $this->_connection = new PDO($this->_dsn, $this->_user, $this->_password, $this->_driverOptions);
+        } catch (FwException $e) {
 
-	/**
-	 * Obtem o prefixo utilizado nas tabelas da aplicação.
-	 *
-	 * @return string
-	 */
-	public function getPrefix() {
-		return $this->_prefix;
-	}
-
-	/**
-	 * Obtém a conexão ativa.
-	 *
-	 * @param string $name Nome da conexão desejada
-	 * @return PDO
-	 */
-	public function getConnection( $name = false ) {
-		// Verifica se existe uma conexão ativa com banco de dados, caso exista, a
-		// retorna, caso contrário dispara uma exceção.
-		if ( $this->_connection !== false ) {
-			return $this->_connection;
         }
-		throw new FwException( 'Nenhuma conexão com banco de dados foi iniciada.' );
-	}
+    }
+
+    /**
+     * Finaliza a conexão ativa.
+     *
+     * @return void
+     */
+    private function disconnect()
+    {
+        // Finaliza a conexão ativa com o banco de dados.
+        $this->_connection = false;
+    }
+
+    /**
+     * Obtem o prefixo utilizado nas tabelas da aplicação.
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->_prefix;
+    }
+
+    /**
+     * Obtém a conexão ativa.
+     *
+     * @param string $name Nome da conexão desejada
+     * @return PDO
+     */
+    public function getConnection($name = false)
+    {
+        // Verifica se existe uma conexão ativa com banco de dados, caso exista, a
+        // retorna, caso contrário dispara uma exceção.
+        if ($this->_connection !== false) {
+            return $this->_connection;
+        }
+        throw new FwException('Nenhuma conexão com banco de dados foi iniciada.');
+    }
 }

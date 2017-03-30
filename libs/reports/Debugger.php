@@ -18,11 +18,16 @@
  * @category Reports
  * @version 1.0
  */
-class Debugger  {
+class Debugger
+{
 
-	public function __construct() {
-	}
+    public function __construct()
+    {
 
-	public function __destruct() {
-	}
+    }
+
+    public function __destruct()
+    {
+
+    }
 }

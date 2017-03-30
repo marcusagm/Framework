@@ -18,11 +18,16 @@
  * @category Types
  * @version 1.0
  */
-class Image  {
+class Image
+{
 
-	function __construct() {
-	}
+    function __construct()
+    {
 
-	function __destruct() {
-	}
+    }
+
+    function __destruct()
+    {
+
+    }
 }

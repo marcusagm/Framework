@@ -18,27 +18,35 @@
  * @category Types
  * @version 1.0
  */
-class Cookie {
+class Cookie
+{
 
-	private function __construct() {
-	}
+    private function __construct()
+    {
 
-	private function __clone() {
-	}
+    }
 
-	public static function setVar( $name, $value, $hours ) {
-		setcookie($name, $value, $hours * 3600 );
-	}
+    private function __clone()
+    {
 
-	public static function getVar( $name ) {
-		if( isset( $_COOKIE[$name] ) ) {
-			return $_COOKIE[$name];
-		}
+    }
 
-		return false;
-	}
+    public static function setVar($name, $value, $hours)
+    {
+        setcookie($name, $value, $hours * 3600);
+    }
 
-	public static function deleteVar( $name ){
-		setcookie($name, "", time() - 3600);
-	}
+    public static function getVar($name)
+    {
+        if (isset($_COOKIE[$name])) {
+            return $_COOKIE[$name];
+        }
+
+        return false;
+    }
+
+    public static function deleteVar($name)
+    {
+        setcookie($name, "", time() - 3600);
+    }
 }

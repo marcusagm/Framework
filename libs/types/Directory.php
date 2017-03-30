@@ -18,45 +18,81 @@
  * @category Types
  * @version 1.0
  */
-class Directory {
-	private $_path;
+class Directory
+{
 
-	public function __construct ( $path ) {
-		if ( is_dir($path) )
-			$this->_path = $path;
-		else
-			throw 'O diretório informado não é válido ou não existe.';
-	}
-	public function __destruct () {}
+    private $_path;
 
-	public function open () {}
-	public function close () {}
-	public function delete() {}
-	public function rename( $name ) {
-		rename( $this->_path, $name );
-	}
+    public function __construct($path)
+    {
+        if (is_dir($path)) {
+            $this->_path = $path;
+        } else {
+            throw 'O diretório informado não é válido ou não existe.';
+        }
+    }
 
-	public function getPathUp () {}
-	public function getListFiles( $sort = 'asc' ) {
-		if ( $sort == 'asc' )
-			return scandir( $this->_path );
+    public function __destruct()
+    {
 
-		return scandir( $this->_path, 1 );
-	}
-	public function getNumFiles() {}
+    }
 
-	public function setPermission ( $permission ) {
-		$permission;
-	}
+    public function open()
+    {
 
-	public function searchFile( $name ) {
-		$name;
-	}
+    }
 
-	public function createFolder( $name ) {
-		$name;
-	}
-	public function createFile( File $File ) {
-		$File;
-	}
+    public function close()
+    {
+
+    }
+
+    public function delete()
+    {
+
+    }
+
+    public function rename($name)
+    {
+        rename($this->_path, $name);
+    }
+
+    public function getPathUp()
+    {
+
+    }
+
+    public function getListFiles($sort = 'asc')
+    {
+        if ($sort == 'asc') {
+            return scandir($this->_path);
+        }
+
+        return scandir($this->_path, 1);
+    }
+
+    public function getNumFiles()
+    {
+
+    }
+
+    public function setPermission($permission)
+    {
+        $permission;
+    }
+
+    public function searchFile($name)
+    {
+        $name;
+    }
+
+    public function createFolder($name)
+    {
+        $name;
+    }
+
+    public function createFile(File $File)
+    {
+        $File;
+    }
 }

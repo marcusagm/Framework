@@ -18,21 +18,31 @@
  * @category Reports
  * @version 1.0
  */
-class Logs {
-	private $name = null;
-	private $datetime = null;
-	private $text = null;
-	private $trace = array();
+class Logs
+{
 
-	function __construct() {
-	}
+    private $name = null;
+    private $datetime = null;
+    private $text = null;
+    private $trace = array();
 
-	function __destruct() {
-	}
+    function __construct()
+    {
 
-	function generate() {
-	}
+    }
 
-	function save( $path ) {
-	}
+    function __destruct()
+    {
+
+    }
+
+    function generate()
+    {
+
+    }
+
+    function save($path)
+    {
+
+    }
 }

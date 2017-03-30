@@ -20,123 +20,136 @@
  * @category Database
  * @version 1.0
  */
-class Table  {
-	protected $_tableName;
+class Table
+{
 
-	/**
-	 * Guarda um array com a estrutura da tabela do banco de dados.
-	 *
-	 * @var array
-	 */
-	protected $_schema = array();
+    /**
+     * Nome da tabela no banco de dados.
+     *
+     * @var string
+     */
+    protected $_tableName;
 
-	/**
-	 * Guarda o nome do campo primário da tabela.
-	 *
-	 * @var array
-	 */
-	protected $_primaryKeys = array();
+    /**
+     * Guarda um array com a estrutura da tabela do banco de dados.
+     *
+     * @var array
+     */
+    protected $_schema = array();
 
-	/**
-	 * Guarda informações de chaves extrangeiras da tabela.
-	 *
-	 * @var array
-	 */
-	protected $_foreingKeys = array();
+    /**
+     * Guarda o nome do campo primário da tabela.
+     *
+     * @var array
+     */
+    protected $_primaryKeys = array();
 
-	/**
-	 * Inicializa o objeto extraindo informações de uma tabela desejada do banco de
-	 * dados.
-	 *
-	 * @param string $name Nome da tabela do banco de dados.
-	 */
-	public function __construct( $name, $schema = null ) {
-		// Obtem a instancia do Banco de dados do ambiente atual.
-		$Database			= Environment::getDatabase();
-		$Connection			= $Database->getConnection();
+    /**
+     * Guarda informações de chaves extrangeiras da tabela.
+     *
+     * @var array
+     */
+    protected $_foreingKeys = array();
 
-		// Inicializa os atributos.
-		$this->_tableName	= $Database->getPrefix() . $name;
+    /**
+     * Inicializa o objeto extraindo informações de uma tabela desejada do banco de
+     * dados.
+     *
+     * @param string $name Nome da tabela do banco de dados.
+     */
+    public function __construct($name, $schema = null)
+    {
+        // Obtem a instancia do Banco de dados do ambiente atual.
+        $Database = Environment::getDatabase();
+        $Connection = $Database->getConnection();
 
-		// Obtem as estrutura da tabela do banco de dados.
-		if( $schema ) {
-			$tableSchema = $schema;
-		} else {
-			$tableSchemaExec	= $Connection->query( 'DESCRIBE `' . $this->_tableName . '`' );
+        // Inicializa os atributos.
+        $this->_tableName = $Database->getPrefix() . $name;
 
-			$error = $Connection->errorInfo();
-			if( $error[0] !== '00000' ) {
-				throw new FwException('Ocorreu um erro ao executar a query: ' .
-									   'DESCRIBE `' . $this->_tableName . '` - Erro: ' . $error[2] );
-			}
-			$tableSchema		= $tableSchemaExec->fetchAll();
-			$type				= null;
-		}
+        // Obtem as estrutura da tabela do banco de dados.
+        if ($schema) {
+            $tableSchema = $schema;
+        } else {
+            $tableSchemaExec = $Connection->query('DESCRIBE `' . $this->_tableName . '`');
 
-		// Armazena a estrutura da tabela.
-		foreach( $tableSchema as $field ) {
-			preg_match( '/([a-z]*)\(?([0-9]*)?\)?/', $field["Type"], $type);
-			$this->_schema[ $field['Field'] ] = array(
-											'type'		=> $type[1],
-											'length'	=> $type[2],
-											'null'		=> $field['Null'] == 'YES' ? true : false,
-											'default'	=> $field['Default'],
-											'key'		=> $field['Key'],
-											'extra'		=> $field['Extra']
-										);
-			if($field['Key'] == 'PRI') {
-				$this->_primaryKeys[] = $field['Field'];
-			}
-		}
-	}
+            $error = $Connection->errorInfo();
+            if ($error[0] !== '00000') {
+                throw new FwException('Ocorreu um erro ao executar a query: ' .
+                'DESCRIBE `' . $this->_tableName . '` - Erro: ' . $error[2]);
+            }
+            $tableSchema = $tableSchemaExec->fetchAll();
+            $type = null;
+        }
 
-	/**
-	 * Obtem o nome da tabela do banco de dados
-	 *
-	 * @return string
-	 */
-	public function getTableName() {
-		return $this->_tableName;
-	}
+        // Armazena a estrutura da tabela.
+        foreach ($tableSchema as $field) {
+            preg_match('/([a-z]*)\(?([0-9]*)?\)?/', $field["Type"], $type);
+            $this->_schema[$field['Field']] = array(
+                'type' => $type[1],
+                'length' => $type[2],
+                'null' => $field['Null'] == 'YES' ? true : false,
+                'default' => $field['Default'],
+                'key' => $field['Key'],
+                'extra' => $field['Extra']
+            );
+            if ($field['Key'] == 'PRI') {
+                $this->_primaryKeys[] = $field['Field'];
+            }
+        }
+    }
 
-	/**
-	 * Retorna um array com informações da estrutura da tabela do banco de dados
-	 * - Field { type, length, null, default, key, extra }
-	 *
-	 * @return array
-	 */
-	public function getSchema() {
-		return $this->_schema;
-	}
+    /**
+     * Obtem o nome da tabela do banco de dados
+     *
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->_tableName;
+    }
 
-	/**
-	 * Retorna um array com informações da estrutura de um campo específico de uma
-	 * tabela do banco de dados
-	 * - Field { type, length, null, default, key, extra }
-	 *
-	 * @param string $columnName Nome da coluna
-	 * @return array
-	 */
-	public function getColumn( $columnName ) {
-		return $this->_schema[ $columnName ];
-	}
+    /**
+     * Retorna um array com informações da estrutura da tabela do banco de dados
+     * - Field { type, length, null, default, key, extra }
+     *
+     * @return array
+     */
+    public function getSchema()
+    {
+        return $this->_schema;
+    }
 
-	/**
-	 * Obtem os nomes das chaves primárias da tabela do banco de dados.
-	 *
-	 * @return array
-	 */
-	public function getPrimaryKeysNames() {
-		return $this->_primaryKeys;
-	}
+    /**
+     * Retorna um array com informações da estrutura de um campo específico de uma
+     * tabela do banco de dados
+     * - Field { type, length, null, default, key, extra }
+     *
+     * @param string $columnName Nome da coluna
+     * @return array
+     */
+    public function getColumn($columnName)
+    {
+        return $this->_schema[$columnName];
+    }
 
-	/**
-	 * Verifica a existência de um campo na tabela do banco de dados.
-	 *
-	 * @param string $columnName Nome da coluna
-	 * @return boolean
-	 */
-	public function existsColumn( $columnName ) {
-		return array_key_exists( $columnName, $this->_schema );
-	}
+    /**
+     * Obtem os nomes das chaves primárias da tabela do banco de dados.
+     *
+     * @return array
+     */
+    public function getPrimaryKeysNames()
+    {
+        return $this->_primaryKeys;
+    }
+
+    /**
+     * Verifica a existência de um campo na tabela do banco de dados.
+     *
+     * @param string $columnName Nome da coluna
+     * @return boolean
+     */
+    public function existsColumn($columnName)
+    {
+        return array_key_exists($columnName, $this->_schema);
+    }
 }

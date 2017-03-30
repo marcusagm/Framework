@@ -20,105 +20,116 @@
  * @category Reports
  * @version 1.0
  */
-final class Benchmark  {
-	/**
-	 * Armazena todos os marcos de tempo que se deseja calcular.
-	 */
-	private $marks = array();
+final class Benchmark
+{
 
-	/**
-	 * Armazena a instância de um objeto único desta classe.
-	 *
-	 * @var object
-	 */
-	private static $_instance = null;
+    /**
+     * Armazena todos os marcos de tempo que se deseja calcular.
+     */
+    private $marks = array();
 
-	/**
-	 * Este objeto não pode ser instânciado, por fazer uso do padrão Singleton.
-	 * Sendo assim o construtor está setado como privado, para evitar que seja
-	 * instânciado fora desta classe.
-	 *
-	 * @return void
-	 */
-	private function __construct() {
-	}
+    /**
+     * Armazena a instância de um objeto único desta classe.
+     *
+     * @var object
+     */
+    private static $_instance = null;
 
-	/**
-	 * Esta classe não pode ser instânciada externamente, por fazer uso do padrão
-	 * Singleton. Sendo assim, a instância existente não pode ser clonada.
-	 *
-	 * @return void
-	 */
-	private function __clone() {
-	}
+    /**
+     * Este objeto não pode ser instânciado, por fazer uso do padrão Singleton.
+     * Sendo assim o construtor está setado como privado, para evitar que seja
+     * instânciado fora desta classe.
+     *
+     * @return void
+     */
+    private function __construct()
+    {
 
-	/**
-	 * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
-	 * cria e armazena no respectivo atributo.
-	 *
-	 * @return object
-	 */
-	public static function getInstance() {
-		if( self::$_instance === null ) {
-			self::$_instance = new self();
-		}
+    }
 
-		return self::$_instance;
-	}
+    /**
+     * Esta classe não pode ser instânciada externamente, por fazer uso do padrão
+     * Singleton. Sendo assim, a instância existente não pode ser clonada.
+     *
+     * @return void
+     */
+    private function __clone()
+    {
 
-	/**
-	 * Registra um novo marco guardando a hora em microsegundos do momento em que o
-	 * método foi chamado.
-	 *
-	 * @param $name Nome do marco.
-	 * @return void
-	 */
-	public function start( $name ) {
-		if( array_key_exists( $name, $this->marks ) && isset($this->marks[$name]['start']) ) {
-			throw new FwException( 'O marco "' . $name . '" já foi registrado.' );
-		}
+    }
 
-		$this->marks[$name]['start'] = microtime(true);
-	}
+    /**
+     * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
+     * cria e armazena no respectivo atributo.
+     *
+     * @return object
+     */
+    public static function getInstance()
+    {
+        if (self::$_instance === null) {
+            self::$_instance = new self();
+        }
 
-	/**
-	 * Registra o tempo de finalização de um marco guardando a hora em microsegundos
-	 * do momento em que o método foi chamado.
-	 *
-	 * @param $name Nome do marco.
-	 * @return void
-	 */
-	public function stop( $name ) {
-		if( array_key_exists( $name, $this->marks ) ) {
-			$this->marks[$name]['stop']		= microtime(true);
-			$valor_start					= round( $this->marks[$name]['start'], 4);
-			$valor_stop						= round( $this->marks[$name]['stop'], 4);
-			$this->marks[$name]['total']	= $valor_stop - $valor_start;
-		} else {
-			throw new FwException( 'O marco "' . $name . '" não existe.' );
-		}
-	}
+        return self::$_instance;
+    }
 
-	/**
-	 * Obtem os valores de um determinado marco.
-	 *
-	 * @param $name Nome do marco.
-	 * @return array
-	 */
-	public function getMark( $name ) {
-		if( array_key_exists( $name, $this->marks ) ) {
-			return $this->marks[$name];
-		} else {
-			throw new FwException( 'O marco "' . $name . '" não existe.' );
-		}
-	}
+    /**
+     * Registra um novo marco guardando a hora em microsegundos do momento em que o
+     * método foi chamado.
+     *
+     * @param $name Nome do marco.
+     * @return void
+     */
+    public function start($name)
+    {
+        if (array_key_exists($name, $this->marks) && isset($this->marks[$name]['start'])) {
+            throw new FwException('O marco "' . $name . '" já foi registrado.');
+        }
 
-	/**
-	 * Retorna todos os marcos de tempo registrados.
-	 *
-	 * @return array
-	 */
-	public function getAllMarks() {
-		return $this->marks;
-	}
+        $this->marks[$name]['start'] = microtime(true);
+    }
+
+    /**
+     * Registra o tempo de finalização de um marco guardando a hora em microsegundos
+     * do momento em que o método foi chamado.
+     *
+     * @param $name Nome do marco.
+     * @return void
+     */
+    public function stop($name)
+    {
+        if (array_key_exists($name, $this->marks)) {
+            $this->marks[$name]['stop'] = microtime(true);
+            $valor_start = round($this->marks[$name]['start'], 4);
+            $valor_stop = round($this->marks[$name]['stop'], 4);
+            $this->marks[$name]['total'] = $valor_stop - $valor_start;
+        } else {
+            throw new FwException('O marco "' . $name . '" não existe.');
+        }
+    }
+
+    /**
+     * Obtem os valores de um determinado marco.
+     *
+     * @param $name Nome do marco.
+     * @return array
+     */
+    public function getMark($name)
+    {
+        if (array_key_exists($name, $this->marks)) {
+            return $this->marks[$name];
+        } else {
+            throw new FwException('O marco "' . $name . '" não existe.');
+        }
+    }
+
+    /**
+     * Retorna todos os marcos de tempo registrados.
+     *
+     * @return array
+     */
+    public function getAllMarks()
+    {
+        return $this->marks;
+    }
 }

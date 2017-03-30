@@ -22,88 +22,97 @@
  * @category Configurations
  * @version 1.0
  */
-abstract class Config {
-	/**
-	 * Armazena a instância de um objeto único desta classe.
-	 *
-	 * @var object
-	 */
-	private static $instances = array();
-
-	/**
-	 * Aramazena as variáveis de configuração.
-	 *
-	 * @var array
-	 */
-	protected $params = array();
-
-	/**
-	 * Este objeto não pode ser instânciado, por fazer uso do padrão Singleton.
-	 * Sendo assim o construtor está setado como privado, para evitar que seja
-	 * instânciado fora desta ou de classes filhas.
-	 *
-	 * @return void
-	 */
-	final private function __construct() {
-	}
-
-	/**
-	 * Esta classe não pode ser instânciada externamente, por fazer uso do padrão
-	 * Singleton. Sendo assim, a instância existente não pode ser clonada.
-	 *
-	 * @return void
-	 */
-	final private function __clone() {
-	}
-
-	/**
-	 * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
-	 * cria e armazena no respectivo atributo. Este método é uma parte da
-	 * implementação do padrão de projeto Singleton.
-	 *
-	 * @return object
-	 */
-	protected static function getInstanceObject( $className ) {
-		if(!isset( self::$instances[$className] ) ) {
-			self::$instances[$className] = new $className();
-		}
-
-		return self::$instances[$className];
-	}
+abstract class Config
+{
 
     /**
-	 * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
-	 * cria e armazena no respectivo atributo. Este método é uma parte da
-	 * implementação do padrão de projeto Singleton.
-	 *
-	 * @return ConfigDatabase
-	 */
-	public static function getInstance() {
-		return self::getInstanceObject(get_called_class());
-	}
+     * Armazena a instância de um objeto único desta classe.
+     *
+     * @var object
+     */
+    private static $instances = array();
 
-	/**
-	 * Atribui um valor a uma variável.
-	 *
-	 * @param string $attribute Nome do atributo.
-	 * @param mixed $value Novo valor para o atributo.
-	 * @return void
-	 */
-	final public function __set($attribute, $value) {
-		$this->params[$attribute] = $value;
-	}
+    /**
+     * Aramazena as variáveis de configuração.
+     *
+     * @var array
+     */
+    protected $params = array();
 
-	/**
-	 * Obtem o valor de uma variável.
-	 *
-	 * @param string $attribute Nome do atributo.
-	 * @return mixed Valor do atributo
-	 */
-	final public function __get($attribute) {
-		if ( array_key_exists( $attribute, $this->params ) ) {
-			return $this->params[$attribute];
-		}
-		return false;
-	}
+    /**
+     * Este objeto não pode ser instânciado, por fazer uso do padrão Singleton.
+     * Sendo assim o construtor está setado como privado, para evitar que seja
+     * instânciado fora desta ou de classes filhas.
+     *
+     * @return void
+     */
+    final private function __construct()
+    {
 
+    }
+
+    /**
+     * Esta classe não pode ser instânciada externamente, por fazer uso do padrão
+     * Singleton. Sendo assim, a instância existente não pode ser clonada.
+     *
+     * @return void
+     */
+    final private function __clone()
+    {
+
+    }
+
+    /**
+     * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
+     * cria e armazena no respectivo atributo. Este método é uma parte da
+     * implementação do padrão de projeto Singleton.
+     *
+     * @return object
+     */
+    protected static function getInstanceObject($className)
+    {
+        if (!isset(self::$instances[$className])) {
+            self::$instances[$className] = new $className();
+        }
+
+        return self::$instances[$className];
+    }
+
+    /**
+     * Obtém a instância ativa do objeto. Caso não exista nenhum objeto criado ainda,
+     * cria e armazena no respectivo atributo. Este método é uma parte da
+     * implementação do padrão de projeto Singleton.
+     *
+     * @return ConfigDatabase
+     */
+    public static function getInstance()
+    {
+        return self::getInstanceObject(get_called_class());
+    }
+
+    /**
+     * Atribui um valor a uma variável.
+     *
+     * @param string $attribute Nome do atributo.
+     * @param mixed $value Novo valor para o atributo.
+     * @return void
+     */
+    final public function __set($attribute, $value)
+    {
+        $this->params[$attribute] = $value;
+    }
+
+    /**
+     * Obtem o valor de uma variável.
+     *
+     * @param string $attribute Nome do atributo.
+     * @return mixed Valor do atributo
+     */
+    final public function __get($attribute)
+    {
+        if (array_key_exists($attribute, $this->params)) {
+            return $this->params[$attribute];
+        }
+        return false;
+    }
 }
