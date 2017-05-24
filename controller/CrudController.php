@@ -293,7 +293,7 @@ abstract class CrudController extends Controller
                         $newFilters[] = $column . ' LIKE "%' . $filter . '%"';
                     }
                 }
-                $filter = array(implode(' OR ', $newFilters));
+                $filter = array( '(' . implode(' OR ', $newFilters) . ')' );
             }
         }
 

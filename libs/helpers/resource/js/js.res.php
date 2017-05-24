@@ -27,8 +27,8 @@ echo <<<EOF
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', \$lastModified ) . ' GMT' );
 header( 'Etag: ' . \$etagFile );
 header( 'Cache-Control: public' );
-header( 'Content-type: text/javascript;' );
-header('Expires: '.gmdate('D, d M Y H:i:s', time() + \$expireTime).' GMT');
+header( 'Content-type: application/javascript;' );
+header( 'Expires: '.gmdate('D, d M Y H:i:s', time() + \$expireTime).' GMT' );
 
 //check if page has changed. If not, send 304 and exit
 if ( \$ifModifiedSince == \$lastModified || \$etagHeader == \$etagFile ) {

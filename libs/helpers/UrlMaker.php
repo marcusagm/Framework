@@ -100,4 +100,10 @@ class UrlMaker
 
         return $app->getAppBaseUrl() . str_replace($keywords, $keywordsPattern, $routeRule['path']);
     }
+
+    public static function toImage($path)
+    {
+        $app = ConfigCore::getInstance();
+        return $app->getAppBaseUrl() . 'images/' . $path;
+    }
 }
