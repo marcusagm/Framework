@@ -12,8 +12,8 @@
  * @license    http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$jsContents = str_replace( '\\', '\\\\', $jsContents );
-$jsContents = str_replace( '\'', '\\\'', $jsContents );
+//$jsContents = str_replace( '\\', '\\\\', $jsContents );
+//$jsContents = str_replace( '\'', '\\\'', $jsContents );
 echo <<<EOF
 <?php
 \$lastModified = filemtime(__FILE__);
@@ -38,9 +38,17 @@ if ( \$ifModifiedSince == \$lastModified || \$etagHeader == \$etagFile ) {
 	header( 'HTTP/1.1 200 Ok' );
 }
 
-echo '
-$jsContents;
+if( ini_get('zlib.output_compression' ) ) {
+    ob_start();
+} else {
+    ob_start('ob_gzhandler');
+}
+?>
+$jsContents
 
-';
+<?php
+\$buffer = ob_get_contents();
+ob_end_clean();
+echo \$buffer;
 
 EOF;
