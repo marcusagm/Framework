@@ -143,16 +143,16 @@ class FwException extends Exception
             if (!in_array($email, self::$_emailsReport)) {
                 self::$_emailsReport[] = $email;
             } else {
-                file_put_contents(self::$_pathLogs . 'ExceptionError_' . $this->_logFileName . '.txt', 'Tentativa de adicionar email para envio de logs duplicado.');
+                file_put_contents(self::$_pathLogs . 'ExceptionError_' . self::_logFileName . '.txt', 'Tentativa de adicionar email para envio de logs duplicado.');
             }
         } else {
-            file_put_contents(self::$_pathLogs . 'ExceptionError_' . $this->_logFileName . '.txt', 'Email para envio de logs inválido.');
+            file_put_contents(self::$_pathLogs . 'ExceptionError_' . self::_logFileName . '.txt', 'Email para envio de logs inválido.');
         }
     }
 
     public static function getEmails()
     {
-        return $this->reportEmails;
+        return self::reportEmails;
     }
 
     public static function setPathLogs($path)
@@ -237,6 +237,8 @@ class FwException extends Exception
         $header .= 'boundary="' . $boundary . "\"\n";
         $header .= 'Date: ' . date("D, d M Y H:i:s O", time() - 3600) . "\n";
         $header .= 'From: ' . $_SERVER['SERVER_ADMIN'] . '<' . $_SERVER['SERVER_ADMIN'] . ">\n";
+        $header .= 'Return-Path: ' . $_SERVER['SERVER_ADMIN'] . '<' . $_SERVER['SERVER_ADMIN'] . ">\n";
+        $header .= 'Reply-To: ' . $_SERVER['SERVER_ADMIN'] . '<' . $_SERVER['SERVER_ADMIN'] . ">\n";
 
         $body = '--' . $boundary . "\n";
         $body .= "Content-Transfer-Encoding: 8bits;\n";

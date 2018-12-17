@@ -290,7 +290,7 @@ abstract class CrudController extends Controller
                 }
                 foreach ($columns as $column) {
                     if ($object->$column != 'id' && $object->isValid($column, $filter)) {
-                        $newFilters[] = $column . ' LIKE "%' . $filter . '%"';
+                        $newFilters[] = '`' . $column . '` LIKE "%' . $filter . '%"';
                     }
                 }
                 $filter = array( '(' . implode(' OR ', $newFilters) . ')' );
