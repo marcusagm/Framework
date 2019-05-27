@@ -178,7 +178,7 @@ class Layout extends Object
             require_once SYSROOT . 'layouts' . DS . $this->layoutName . '.lay.php';
         } else {
             throw new FwException('O Layout requisitado não foi encontrado ou
-									não existe');
+                                    não existe');
         }
     }
 

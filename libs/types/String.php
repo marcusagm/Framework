@@ -145,14 +145,14 @@ class String
         $this->_string = strrev($this->_string);
         /* if ( $this->length() > 1 )
           {
-          $reversed		= '';
-          $lengthString	= $this->length();
-          $positionString	= $this->length() - 1;
+          $reversed        = '';
+          $lengthString    = $this->length();
+          $positionString    = $this->length() - 1;
 
-          for( $positionCopy	= 0; $positionCopy < $lengthString; $positionCopy++, $positionString-- )
+          for( $positionCopy    = 0; $positionCopy < $lengthString; $positionCopy++, $positionString-- )
           {
-          $reversed[$positionCopy]	= $this->_string[$positionString];
-          $reversed[$positionString]	= $this->_string[$positionCopy];
+          $reversed[$positionCopy]    = $this->_string[$positionString];
+          $reversed[$positionString]    = $this->_string[$positionCopy];
           }
 
           $this->_string = $reversed;

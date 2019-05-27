@@ -463,8 +463,8 @@ class DataGrid
      * @param array $conditionalsValues Valores condicionais. Usado para quando a URL
      * de ação do link irá mudar de acordo com o valor do campo do registro.
      * Ex: array(
-     * 		'true' => array( $controller, $actionTrue, $text, $field ),
-     * 		'false' =>  array( $controller, $actionTrue, $text, $field )
+     *         'true' => array( $controller, $actionTrue, $text, $field ),
+     *         'false' =>  array( $controller, $actionTrue, $text, $field )
      * );
      */
     public function addColumnButtonConditional($conditionalsValues, $field = 'id', $ajaxAction = false)

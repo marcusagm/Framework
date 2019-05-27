@@ -356,8 +356,8 @@ abstract class CrudController extends Controller
         if (is_numeric($id) === false) {
             throw new FwException(
                 'O valor "' . $id . '" informado não é válido para a Action "view"
-				do controller "' . $this->getControllerName() . '" cujo utiliza a
-				Model "' . $this->modelName . '".'
+                do controller "' . $this->getControllerName() . '" cujo utiliza a
+                Model "' . $this->modelName . '".'
             );
         }
 
@@ -450,8 +450,8 @@ abstract class CrudController extends Controller
         if (is_numeric($id) === false) {
             throw new FwException(
                 'O valor "' . $id . '" informado não é válido para a Action "edit"
-				do controller "' . $this->getControllerName() . '" cujo utiliza a
-				Model "' . $this->modelName . '".'
+                do controller "' . $this->getControllerName() . '" cujo utiliza a
+                Model "' . $this->modelName . '".'
             );
         }
 
@@ -530,8 +530,8 @@ abstract class CrudController extends Controller
             if (is_numeric($id) === false) {
                 throw new FwException(
                 'O valor "' . $id . '" informado não é válido para a Action
-					"delete" do controller "' . $this->getControllerName() . '" cujo
-					utiliza a Model "' . $this->modelName . '".'
+                    "delete" do controller "' . $this->getControllerName() . '" cujo
+                    utiliza a Model "' . $this->modelName . '".'
                 );
             }
 
@@ -667,8 +667,8 @@ abstract class CrudController extends Controller
         if (is_numeric($id) === false && ( empty($id) === false )) {
             throw new FwException(
             'O valor "' . $id . '" informado não é válido para a Action "edit"
-				do controller "' . $this->getControllerName() . '" cujo utiliza a
-				Model "' . $this->modelName . '".'
+                do controller "' . $this->getControllerName() . '" cujo utiliza a
+                Model "' . $this->modelName . '".'
             );
         }
 
