@@ -655,8 +655,7 @@ abstract class CrudController extends Controller
      */
     protected function getRequestObject()
     {
-        $httpVarNamePrefix = new String($this->modelName);
-        $httpVarNamePrefix->underscore('_');
+        $httpVarNamePrefix = Text::underscore($this->modelName);
         $primaryKeyField = $httpVarNamePrefix . '_id';
 
         $id = null;
@@ -705,13 +704,11 @@ abstract class CrudController extends Controller
         if ($modelName === false) {
             $modelName = $this->modelName;
         }
-        $httpVarNamePrefix = new String($modelName);
-        $httpVarNamePrefix->underscore();
+        $httpVarNamePrefix = Text::underscore($modelName);
 
         foreach ($httpData as $httpVar => $value) {
             foreach ($columns as $column) {
-                $httpVarName = new String($httpVarNamePrefix . '_' . $column);
-                $httpVarName->normalize('_');
+                $httpVarName = Text::underscore($httpVarNamePrefix . '_' . $column);
                 if ($column != 'id' && $httpVarName == $httpVar) {
                     if ($object->isValid($column, $value) === false) {
                         throw new FwException(

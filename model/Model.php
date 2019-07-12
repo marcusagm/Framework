@@ -154,14 +154,12 @@ abstract class Model implements ModelInterface
         $params = array_merge($params, array(null, null, null, null));
 
         // Inicia um objeto String para facilitar no tratamento necessário.
-        $method = new String($method);
         $fields = array();
 
         // Filtra a chamada de método, iniciando pelo mais comum, o findByCampo
-        if ($method->match('/^findBy(.*)/', $fields)) {
+        if (Text::match($method, '/^findBy(.*)/', $fields)) {
             // Trata o nome do metodo para igualar ao campo no banco de dados
-            $field = new String($fields[1]);
-            $field->normalize('_');
+            $field = Text::normalize($fields[1], '_');
 
             // Garante que seja passado um array no segundo parametro do método
             // findBy.
@@ -174,10 +172,9 @@ abstract class Model implements ModelInterface
             return $this->findBy($field, $params[0], $params[1], $params[2]);
 
             // Verifica se o método desejado é o existsThisCampo
-        } elseif ($method->match('/existsThis(.*)/')) {
+        } elseif (Text::match($method, '/existsThis(.*)/')) {
             // Trata o nome do metodo para igualar ao campo no banco de dados
-            $field = new String($fields[1]);
-            $field->normalize('_');
+            $field = Text::normalize($fields[1], '_');
 
             // Chama o método existsThis informando o campo e passando os parametros
             // desejados.
