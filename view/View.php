@@ -24,7 +24,7 @@
  * @category Core
  * @version 1.0
  */
-class View extends Object {
+class View extends FwObject {
     /**
      * Layout a ser renderizado.
      *

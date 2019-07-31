@@ -24,7 +24,7 @@
  * @category Core
  * @version 1.0
  */
-class Layout extends Object
+class Layout extends FwObject
 {
 
     /**

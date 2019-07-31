@@ -128,7 +128,7 @@ final class Framework {
 
         // Configura o handler de captura de erros.
         set_error_handler( array( 'FwException', 'throwError' ) );
-        ini_set( 'display_errors', 'off' );
+        ini_set( 'display_errors', 'on' );
 
         // Inicializa o ambiente de trabalho
         Environment::initialize( $ConfigCore->getEnvironment() );

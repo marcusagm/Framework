@@ -18,7 +18,7 @@
  * @category Types
  * @version 1.0
  */
-class Object
+class FwObject
 {
 
     protected $_app = null;

@@ -46,7 +46,7 @@
  * @category Core
  * @version 1.0
  */
-abstract class Controller extends Object
+abstract class Controller extends FwObject
 {
 
     /**
