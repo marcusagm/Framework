@@ -88,7 +88,8 @@ class Text
      */
     public static function crop($value, $limit, $start = 0, $encoding = null)
     {
-        return mb_strcut($value, $start, $limit, $encoding);
+        // return mb_strcut($value, $start, $limit, $encoding);
+        return substr($value, $start, $limit);
     }
 
     /**
