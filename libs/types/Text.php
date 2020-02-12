@@ -312,7 +312,10 @@ class Text
      */
     public static function toLower($value, $encoding = null)
     {
-        return mb_strtolower($value, $encoding);
+        if ($encoding !== null) {
+            return mb_strtolower($value, $encoding);
+        }
+        return mb_strtolower($value);
     }
 
     /**
@@ -324,7 +327,10 @@ class Text
      */
     public static function toUpper($value, $encoding = null)
     {
-        return mb_strtoupper($value, $encoding);
+        if ($encoding !== null) {
+            return mb_strtoupper($value, $encoding);
+        }
+        return mb_strtoupper($value);
     }
 
     /**
