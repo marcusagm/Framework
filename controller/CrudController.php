@@ -290,10 +290,10 @@ abstract class CrudController extends Controller
                 }
                 foreach ($columns as $column) {
                     if ($object->$column != 'id' && $object->isValid($column, $filter)) {
-                        $newFilters[] = $column . ' LIKE "%' . $filter . '%"';
+                        $newFilters[] = '`' . $column . '` LIKE "%' . $filter . '%"';
                     }
                 }
-                $filter = array(implode(' OR ', $newFilters));
+                $filter = array( '(' . implode(' OR ', $newFilters) . ')' );
             }
         }
 
@@ -356,8 +356,8 @@ abstract class CrudController extends Controller
         if (is_numeric($id) === false) {
             throw new FwException(
                 'O valor "' . $id . '" informado não é válido para a Action "view"
-				do controller "' . $this->getControllerName() . '" cujo utiliza a
-				Model "' . $this->modelName . '".'
+                do controller "' . $this->getControllerName() . '" cujo utiliza a
+                Model "' . $this->modelName . '".'
             );
         }
 
@@ -450,8 +450,8 @@ abstract class CrudController extends Controller
         if (is_numeric($id) === false) {
             throw new FwException(
                 'O valor "' . $id . '" informado não é válido para a Action "edit"
-				do controller "' . $this->getControllerName() . '" cujo utiliza a
-				Model "' . $this->modelName . '".'
+                do controller "' . $this->getControllerName() . '" cujo utiliza a
+                Model "' . $this->modelName . '".'
             );
         }
 
@@ -530,8 +530,8 @@ abstract class CrudController extends Controller
             if (is_numeric($id) === false) {
                 throw new FwException(
                 'O valor "' . $id . '" informado não é válido para a Action
-					"delete" do controller "' . $this->getControllerName() . '" cujo
-					utiliza a Model "' . $this->modelName . '".'
+                    "delete" do controller "' . $this->getControllerName() . '" cujo
+                    utiliza a Model "' . $this->modelName . '".'
                 );
             }
 
@@ -655,8 +655,7 @@ abstract class CrudController extends Controller
      */
     protected function getRequestObject()
     {
-        $httpVarNamePrefix = new String($this->modelName);
-        $httpVarNamePrefix->underscore('_');
+        $httpVarNamePrefix = Text::underscore($this->modelName);
         $primaryKeyField = $httpVarNamePrefix . '_id';
 
         $id = null;
@@ -667,8 +666,8 @@ abstract class CrudController extends Controller
         if (is_numeric($id) === false && ( empty($id) === false )) {
             throw new FwException(
             'O valor "' . $id . '" informado não é válido para a Action "edit"
-				do controller "' . $this->getControllerName() . '" cujo utiliza a
-				Model "' . $this->modelName . '".'
+                do controller "' . $this->getControllerName() . '" cujo utiliza a
+                Model "' . $this->modelName . '".'
             );
         }
 
@@ -705,13 +704,11 @@ abstract class CrudController extends Controller
         if ($modelName === false) {
             $modelName = $this->modelName;
         }
-        $httpVarNamePrefix = new String($modelName);
-        $httpVarNamePrefix->underscore();
+        $httpVarNamePrefix = Text::underscore($modelName);
 
         foreach ($httpData as $httpVar => $value) {
             foreach ($columns as $column) {
-                $httpVarName = new String($httpVarNamePrefix . '_' . $column);
-                $httpVarName->normalize('_');
+                $httpVarName = Text::underscore($httpVarNamePrefix . '_' . $column);
                 if ($column != 'id' && $httpVarName == $httpVar) {
                     if ($object->isValid($column, $value) === false) {
                         throw new FwException(

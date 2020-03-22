@@ -12,8 +12,8 @@
  * @license    http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$jsContents = str_replace( '\\', '\\\\', $jsContents );
-$jsContents = str_replace( '\'', '\\\'', $jsContents );
+//$jsContents = str_replace( '\\', '\\\\', $jsContents );
+//$jsContents = str_replace( '\'', '\\\'', $jsContents );
 echo <<<EOF
 <?php
 \$lastModified = filemtime(__FILE__);
@@ -27,20 +27,28 @@ echo <<<EOF
 header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', \$lastModified ) . ' GMT' );
 header( 'Etag: ' . \$etagFile );
 header( 'Cache-Control: public' );
-header( 'Content-type: text/javascript;' );
-header('Expires: '.gmdate('D, d M Y H:i:s', time() + \$expireTime).' GMT');
+header( 'Content-type: application/javascript;' );
+header( 'Expires: '.gmdate('D, d M Y H:i:s', time() + \$expireTime).' GMT' );
 
 //check if page has changed. If not, send 304 and exit
 if ( \$ifModifiedSince == \$lastModified || \$etagHeader == \$etagFile ) {
        header( 'HTTP/1.1 304 Not Modified' );
        exit ();
 } else {
-	header( 'HTTP/1.1 200 Ok' );
+    header( 'HTTP/1.1 200 Ok' );
 }
 
-echo '
-$jsContents;
+if( ini_get('zlib.output_compression' ) ) {
+    ob_start();
+} else {
+    ob_start('ob_gzhandler');
+}
+?>
+$jsContents
 
-';
+<?php
+\$buffer = ob_get_contents();
+ob_end_clean();
+echo \$buffer;
 
 EOF;

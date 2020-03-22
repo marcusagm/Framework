@@ -25,53 +25,53 @@
  */
 class Environment
 {
-	/**
-	 * Nome do ambiente.
-	 *
-	 * @var string
-	 */
-	private static $environment;
+    /**
+     * Nome do ambiente.
+     *
+     * @var string
+     */
+    private static $environment;
 
-	/**
-	 * Instância do banco de dados que será utilizado no ambiente configurado.
-	 *
-	 * @var Database
-	 */
-	private static $database = null;
+    /**
+     * Instância do banco de dados que será utilizado no ambiente configurado.
+     *
+     * @var Database
+     */
+    private static $database = null;
 
-	/**
-	 * Configura e inicia um ambiente específico.
-	 *
-	 * Configura o ambiente desejado e configura todos os parâmetros necessários.
-	 *
-	 * @param string $environment
-	 * @return void
-	 */
-	public static function initialize( $environment )
+    /**
+     * Configura e inicia um ambiente específico.
+     *
+     * Configura o ambiente desejado e configura todos os parâmetros necessários.
+     *
+     * @param string $environment
+     * @return void
+     */
+    public static function initialize( $environment )
     {
-		$ConfigDatabase		= ConfigDatabase::getInstance();
-		$config				= $ConfigDatabase->getDatabase( $environment );
-		if( $config !== false ) {
-			self::$environment = $environment;
-			self::$database = new Database(
-				$config['driver'],
-				$config['dsn'],
-				$config['user'],
-				$config['password'],
-				$config['prefix'],
-				$config['driver_options'],
-				$config['encoding']
-			);
-		}
-	}
+        $ConfigDatabase        = ConfigDatabase::getInstance();
+        $config                = $ConfigDatabase->getDatabase( $environment );
+        if( $config !== false ) {
+            self::$environment = $environment;
+            self::$database = new Database(
+                $config['driver'],
+                $config['dsn'],
+                $config['user'],
+                $config['password'],
+                $config['prefix'],
+                $config['driver_options'],
+                $config['encoding']
+            );
+        }
+    }
 
-	/**
-	 * Obtem a instância da conexão com o banco de dados do ambiente atual.
-	 *
-	 * @return Database Instância da conexão com o banco de dados
-	 */
-	public static function getDatabase ()
+    /**
+     * Obtem a instância da conexão com o banco de dados do ambiente atual.
+     *
+     * @return Database Instância da conexão com o banco de dados
+     */
+    public static function getDatabase ()
     {
-		return self::$database;
-	}
+        return self::$database;
+    }
 }

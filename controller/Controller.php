@@ -46,7 +46,7 @@
  * @category Core
  * @version 1.0
  */
-abstract class Controller extends Object
+abstract class Controller extends FwObject
 {
 
     /**
@@ -162,7 +162,7 @@ abstract class Controller extends Object
         if (method_exists($object, $action) === false) {
             throw new FwException(
             'Método "' . $action . '" não existe no
-				controller "' . $controller . '".'
+                controller "' . $controller . '".'
             );
         }
 
@@ -170,7 +170,7 @@ abstract class Controller extends Object
         if ($method->isUserDefined() === false && $method->isPublic() === false) {
             throw new FwException(
             'Método "' . $action . '" não existe
-				no Controller "' . $controller . '".'
+                no Controller "' . $controller . '".'
             );
         }
 

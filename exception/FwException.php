@@ -84,30 +84,30 @@ class FwException extends Exception
                 header('HTTP/1.0 404 Not Found');
 
                 $log = '<!DOCTYPE HTML>
-						<html lang="pt-br">
-						<head>
-						<meta charset=utf-8>
-						<title>Log de erro [ ' . date('Y-m-d H:i:s') . ' ]</title>
-						<style type="text/css">
-							* { margin: 0; padding: 0 }
-							body { background: #eee; color: #333; font-family: Arial, Helvetica, sans-serif; font-size: 12px; text-align: center }
-							#fwErrors { width: 750px; margin: 0 auto; text-align: center }
-							#fwErrors header { display: block; margin: 20px 0; padding: 20px; /*background: #fff;*/ border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
-							#fwErrors header h1 { display: block; color: #555; font-weight: normal }
-							#fwErrors header h1 strong { font-size: 3em; display: block; font-weight: normal }
-							#fwErrors header hr { margin: 30px; color: #eee }
-							#fwErrors header div { text-align: left }
-							#fwErrors header div p { margin: 2px 0; padding: 5px; background: #f2f2f2 }
-							#fwErrors table { width: 100%; margin: 15px 0; padding: 15px; background: #fff; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
-							#fwErrors table caption { width: 80%; margin: 10px auto; padding: 5px; border-bottom: 1px dashed #ccc; font-size: 1.3em }
-							#fwErrors table thead tr th { background: #ccc; padding: 5px; text-align: left }
-							#fwErrors table tbody tr td,
-							#fwErrors table tbody tr th { padding: 5px; text-align: left }
-							#fwErrors table tbody tr:nth-child(odd) { background: #f2f2f2 }
-							#fwErrors table tbody tr:hover { outline: 1px dashed #900; background: #fcc; border-collapse: collapse }
-						</style>
-						</head>
-						<body><div id="fwErrors">';
+                        <html lang="pt-br">
+                        <head>
+                        <meta charset=utf-8>
+                        <title>Log de erro [ ' . date('Y-m-d H:i:s') . ' ]</title>
+                        <style type="text/css">
+                            * { margin: 0; padding: 0 }
+                            body { background: #eee; color: #333; font-family: Arial, Helvetica, sans-serif; font-size: 12px; text-align: center }
+                            #fwErrors { width: 750px; margin: 0 auto; text-align: center }
+                            #fwErrors header { display: block; margin: 20px 0; padding: 20px; /*background: #fff;*/ border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
+                            #fwErrors header h1 { display: block; color: #555; font-weight: normal }
+                            #fwErrors header h1 strong { font-size: 3em; display: block; font-weight: normal }
+                            #fwErrors header hr { margin: 30px; color: #eee }
+                            #fwErrors header div { text-align: left }
+                            #fwErrors header div p { margin: 2px 0; padding: 5px; background: #f2f2f2 }
+                            #fwErrors table { width: 100%; margin: 15px 0; padding: 15px; background: #fff; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
+                            #fwErrors table caption { width: 80%; margin: 10px auto; padding: 5px; border-bottom: 1px dashed #ccc; font-size: 1.3em }
+                            #fwErrors table thead tr th { background: #ccc; padding: 5px; text-align: left }
+                            #fwErrors table tbody tr td,
+                            #fwErrors table tbody tr th { padding: 5px; text-align: left }
+                            #fwErrors table tbody tr:nth-child(odd) { background: #f2f2f2 }
+                            #fwErrors table tbody tr:hover { outline: 1px dashed #900; background: #fcc; border-collapse: collapse }
+                        </style>
+                        </head>
+                        <body><div id="fwErrors">';
 
                 // Monta o cabeçalho do log
                 $log .= '<header>';
@@ -143,16 +143,16 @@ class FwException extends Exception
             if (!in_array($email, self::$_emailsReport)) {
                 self::$_emailsReport[] = $email;
             } else {
-                file_put_contents(self::$_pathLogs . 'ExceptionError_' . $this->_logFileName . '.txt', 'Tentativa de adicionar email para envio de logs duplicado.');
+                file_put_contents(self::$_pathLogs . 'ExceptionError_' . self::_logFileName . '.txt', 'Tentativa de adicionar email para envio de logs duplicado.');
             }
         } else {
-            file_put_contents(self::$_pathLogs . 'ExceptionError_' . $this->_logFileName . '.txt', 'Email para envio de logs inválido.');
+            file_put_contents(self::$_pathLogs . 'ExceptionError_' . self::_logFileName . '.txt', 'Email para envio de logs inválido.');
         }
     }
 
     public static function getEmails()
     {
-        return $this->reportEmails;
+        return self::reportEmails;
     }
 
     public static function setPathLogs($path)
@@ -237,6 +237,8 @@ class FwException extends Exception
         $header .= 'boundary="' . $boundary . "\"\n";
         $header .= 'Date: ' . date("D, d M Y H:i:s O", time() - 3600) . "\n";
         $header .= 'From: ' . $_SERVER['SERVER_ADMIN'] . '<' . $_SERVER['SERVER_ADMIN'] . ">\n";
+        $header .= 'Return-Path: ' . $_SERVER['SERVER_ADMIN'] . '<' . $_SERVER['SERVER_ADMIN'] . ">\n";
+        $header .= 'Reply-To: ' . $_SERVER['SERVER_ADMIN'] . '<' . $_SERVER['SERVER_ADMIN'] . ">\n";
 
         $body = '--' . $boundary . "\n";
         $body .= "Content-Transfer-Encoding: 8bits;\n";
@@ -296,28 +298,28 @@ class FwException extends Exception
 
         // Monta o cabeçalho do HTML
         $log = '<!DOCTYPE HTML>
-				<html lang="pt-br">
-				<head>
-				<meta charset=utf-8>
-				<title>Log de erro [ ' . date('Y-m-d H:i:s') . ' ]</title>
-				<style type="text/css">
-					* { margin: 0; padding: 0 }
-					body { background: #eee; color: #333; font-family: Arial, Helvetica, sans-serif; font-size: 12px; text-align: center }
-					#fwErrors { width: 750px; margin: 0 auto; text-align: center }
-					#fwErrors header { display: block; margin: 20px 0; padding: 20px; background: #fff; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
-					#fwErrors header h1 { display: block; color: #900 }
-					#fwErrors header div { text-align: left }
-					#fwErrors header div p { margin: 2px 0; padding: 5px; background: #f2f2f2 }
-					#fwErrors table { width: 100%; margin: 15px 0; padding: 15px; background: #fff; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
-					#fwErrors table caption { width: 80%; margin: 10px auto; padding: 5px; border-bottom: 1px dashed #ccc; font-size: 1.3em }
-					#fwErrors table thead tr th { background: #ccc; padding: 5px; text-align: left }
-					#fwErrors table tbody tr td,
-					#fwErrors table tbody tr th { padding: 5px; text-align: left }
-					#fwErrors table tbody tr:nth-child(odd) { background: #f2f2f2 }
-					#fwErrors table tbody tr:hover { outline: 1px dashed #900; background: #fcc; border-collapse: collapse }
-				</style>
-				</head>
-				<body><div id="fwErrors">';
+                <html lang="pt-br">
+                <head>
+                <meta charset=utf-8>
+                <title>Log de erro [ ' . date('Y-m-d H:i:s') . ' ]</title>
+                <style type="text/css">
+                    * { margin: 0; padding: 0 }
+                    body { background: #eee; color: #333; font-family: Arial, Helvetica, sans-serif; font-size: 12px; text-align: center }
+                    #fwErrors { width: 750px; margin: 0 auto; text-align: center }
+                    #fwErrors header { display: block; margin: 20px 0; padding: 20px; background: #fff; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
+                    #fwErrors header h1 { display: block; color: #900 }
+                    #fwErrors header div { text-align: left }
+                    #fwErrors header div p { margin: 2px 0; padding: 5px; background: #f2f2f2 }
+                    #fwErrors table { width: 100%; margin: 15px 0; padding: 15px; background: #fff; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; -op-border-radius: 15px }
+                    #fwErrors table caption { width: 80%; margin: 10px auto; padding: 5px; border-bottom: 1px dashed #ccc; font-size: 1.3em }
+                    #fwErrors table thead tr th { background: #ccc; padding: 5px; text-align: left }
+                    #fwErrors table tbody tr td,
+                    #fwErrors table tbody tr th { padding: 5px; text-align: left }
+                    #fwErrors table tbody tr:nth-child(odd) { background: #f2f2f2 }
+                    #fwErrors table tbody tr:hover { outline: 1px dashed #900; background: #fcc; border-collapse: collapse }
+                </style>
+                </head>
+                <body><div id="fwErrors">';
 
         // Monta o cabeçalho do log
         $log .= '<header>';
@@ -332,12 +334,12 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>Backtrace</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">#ID</th>';
-        $log .= '	<th scope="col">Class</th>';
-        $log .= '	<th scope="col">Function</th>';
-        $log .= '	<th scope="col">Params</th>';
-        $log .= '	<th scope="col">Line</th>';
-        $log .= '	<th scope="col">File</th>';
+        $log .= '    <th scope="col">#ID</th>';
+        $log .= '    <th scope="col">Class</th>';
+        $log .= '    <th scope="col">Function</th>';
+        $log .= '    <th scope="col">Params</th>';
+        $log .= '    <th scope="col">Line</th>';
+        $log .= '    <th scope="col">File</th>';
         $log .= '</tr></thead>';
 
         // Inicia o preenchimento do log de backtrace
@@ -391,11 +393,11 @@ class FwException extends Exception
         $log .= '<caption>Errors <span class="count"><em>Total:</em> ';
         $log .= $totalErrors . '</span></caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">#ID</th>';
-        $log .= '	<th scope="col">Code</th>';
-        $log .= '	<th scope="col">Message</th>';
-        $log .= '	<th scope="col">File</th>';
-        $log .= '	<th scope="col">Line</th>';
+        $log .= '    <th scope="col">#ID</th>';
+        $log .= '    <th scope="col">Code</th>';
+        $log .= '    <th scope="col">Message</th>';
+        $log .= '    <th scope="col">File</th>';
+        $log .= '    <th scope="col">Line</th>';
         $log .= '</tr></thead>';
 
         // Inicia o preenchimento do log de erros adicionais
@@ -437,8 +439,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>Application variables</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
 
         // Exibe as configurações da aplicação
@@ -465,8 +467,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>POST</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_POST as $key => $value) {
@@ -479,8 +481,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>GET</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_GET as $key => $value) {
@@ -493,8 +495,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>FILES</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_FILES as $key => $value) {
@@ -507,8 +509,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>ENV</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_ENV as $key => $value) {
@@ -521,8 +523,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>SESSION</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         if (isset($_SESSION)) {
@@ -536,8 +538,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>COOKIE</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_COOKIE as $key => $value) {
@@ -549,8 +551,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>REQUEST</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_REQUEST as $key => $value) {
@@ -562,8 +564,8 @@ class FwException extends Exception
         $log .= '<table summary="">';
         $log .= '<caption>SERVER</caption>';
         $log .= '<thead><tr>';
-        $log .= '	<th scope="col">Variable</th>';
-        $log .= '	<th scope="col">Value</th>';
+        $log .= '    <th scope="col">Variable</th>';
+        $log .= '    <th scope="col">Value</th>';
         $log .= '</tr></thead>';
         $log .= '<tbody>';
         foreach ($_SERVER as $key => $value) {

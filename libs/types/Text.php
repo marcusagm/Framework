@@ -21,229 +21,128 @@
  * @category Types
  * @version 1.0
  */
-class String
+class Text
 {
-
-    /**
-     * String da instância.
-     * @var string
-     */
-    private $_string = '';
-
-    /**
-     * Codificação utilizada pela string.
-     * @var string
-     */
-    private $_encode;
-
-    /**
-     * Inicia uma string convertendo-a para a codificação desejada.
-     *
-     * @param string $string Valor da string
-     * @param string $encode[optional] Codificação desejada. O padrão é UTF-8.
-     * @return void
-     */
-    public function __construct($string, $encode = 'UTF-8')
-    {
-        $this->_encode = $encode;
-
-        if (!mb_check_encoding($string, $this->_encode)) {
-            $string = mb_convert_encoding($this->_string, $this->_encode);
-        }
-
-        $this->_string = $string;
-    }
-
-    /**
-     * Método mágico para retornar e utilizar a string quando não é necessário um
-     * método relativo ao tipo String.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->_string;
-    }
-
-    /**
-     * Troca o valor da String atual.
-     *
-     * @param string $string Novo valor.
-     * @return void
-     */
-    public function set($string)
-    {
-        $this->_string = $string;
-    }
-
-    /**
-     * Altera a codificação e realiza a conversão da string atual.
-     *
-     * @param string $encode Nova codificação.
-     * @return void
-     */
-    public function setEncode($encode)
-    {
-        $this->_string = mb_convert_encoding($this->_string, $encode, $this->_encode);
-        $this->_encode = $encode;
-    }
-
-    /**
-     * Imprime uma string já traduzida de acordo com o idioma ativo ou desejado.
-     *
-     * @param string $string String a ser traduzida.
-     * @param string $fileTranslation Arquivo de tradução onde se encontra a string
-     * desejada.
-     * @param string $language Codigo da linguagem desejada.
-     */
-    public static function write($string, $fileTranslation, $language = null)
-    {
-        $fileTranslation;
-        $language;
-        echo $string;
-    }
-
-    /**
-     * Adiciona uma string ao final da string atual.
-     *
-     * @param string $string String a ser adicionada.
-     * @return void
-     */
-    public function append($string)
-    {
-        $this->_string .= $string;
-    }
-
-    /**
-     * Adiciona uma string no início da string atual.
-     *
-     * @param string $string String a ser adicionada.
-     * @return void
-     */
-    public function prepend($string)
-    {
-        $this->_string = $string . $this->_string;
-    }
-
     /**
      * Obtem o tamanho da string.
      *
+     * @param string $value String a ser trabalhada
+     * @param string [$encoding] Códificação utilizada
      * @return integer
      */
-    public function length()
+    public static function length($value, $encoding = null)
     {
-        return mb_strlen($this->_string, $this->_encode);
+        if ($encoding !== null) {
+            return mb_strlen($value, $encoding);
+        }
+        return mb_strlen($value);
     }
 
     /**
      * Retorna a string escrita ao contrário, exemplo: "Exemplo" retorna "olpmexE"
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function reverse()
+    public static function reverse($value)
     {
-        $this->_string = strrev($this->_string);
-        /* if ( $this->length() > 1 )
-          {
-          $reversed        = '';
-          $lengthString    = $this->length();
-          $positionString    = $this->length() - 1;
-
-          for( $positionCopy    = 0; $positionCopy < $lengthString; $positionCopy++, $positionString-- )
-          {
-          $reversed[$positionCopy]    = $this->_string[$positionString];
-          $reversed[$positionString]    = $this->_string[$positionCopy];
-          }
-
-          $this->_string = $reversed;
-          } */
+        return strrev($value);
     }
 
     /**
      * Retorna o caracter em uma determinada posição na string.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function charAt($position)
+    public static function charAt($value, $position)
     {
-        $this->_string[$position];
+        return $value[$position];
     }
 
     /**
      * Verifica se existe uma um padrão na string atual. Este método aceita
      * expressões regulares.
      *
+     * @param string $value String a ser trabalhada
      * @param string $pattern Texto ou expressão procurada.
      * @return boolean
      */
-    public function match($pattern, &$returnMatches = false)
+    public static function match($value, $pattern, &$returnMatches = false)
     {
         if ($returnMatches !== false) {
-            return preg_match($pattern, $this->_string, $returnMatches);
+            return preg_match($pattern, $value, $returnMatches);
         }
-        return preg_match($pattern, $this->_string);
-        //return mb_ereg_match( $pattern, $this->_string );
+        return preg_match($pattern, $value);
     }
 
     /**
      * Corta a string em um número determinado de caracteres, podendo iniciar de uma
      * determinada posição.
      *
+     * @param string $value String a ser trabalhada
      * @param integer $limit Número máximo de caracteres.
      * @param integer $start[optional] Posição inicial de contagem.
+     * @param string [$encoding] Códificação utilizada
      * @return void
      */
-    public function crop($limit, $start = 0)
+    public static function crop($value, $limit, $start = 0, $encoding = null)
     {
-        $this->_string = mb_strcut($this->_string, $start, $limit, $this->_encode);
+        // return mb_strcut($value, $start, $limit, $encoding);
+        return substr($value, $start, $limit);
     }
 
     /**
      * Retorna a primeira posição de uma string dentro da atual.
      *
-     * @param string $string String desejada.
+     * @param string $value String a ser trabalhada
+     * @param string $search String desejada.
      * @param $offset[optional] Posição inicial para busca na string.
+     * @param string [$encoding] Códificação utilizada
      */
-    public function indexOf($string, $offset = 0)
+    public static function indexOf($value, $search, $offset = 0, $encoding = null)
     {
-        return mb_strpos($this->_string, $string, $offset, $this->_encode);
+        return mb_strpos($value, $search, $offset, $encoding);
     }
 
     /**
      * Divide a string em um array usando um delimitador como referencia, podendo
      * limitar o número máximo de caracteres dentro das partes criadas.
      *
+     * @param string $value String a ser trabalhada
      * @param string $pattern Delimitador para separação.
      * @param integer $limit[optional] Limite máximo de caracteres para as partes
      * separadas.
      * @return array
      */
-    public function split($pattern, $limit = -1)
+    public static function split($value, $pattern, $limit = -1)
     {
-        return mb_split($pattern, $this->_string, $limit);
+        return mb_split($pattern, $value, $limit);
     }
 
     /**
      * Localiza e substitui todos os trechos do padrão informado por um texto na
      * string atual.
      *
+     * @param string $value String a ser trabalhada
      * @param string $pattern Expressão que se deseja substituir.
      * @param string $replacement Texto que substituirá a expressão.
      * @return void
      */
-    public function replace($pattern, $replacement)
+    public static function replace($value, $pattern, $replacement)
     {
-        $this->_string = mb_ereg_replace($pattern, $replacement, $this->_string);
+        return mb_ereg_replace($pattern, $replacement, $value);
     }
 
     /**
      * Retira os espaços em branco do início e do fim da string atual.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function trim()
+    public static function trim($value)
     {
-        $this->_string = trim($this->_string);
+        return trim($value);
     }
 
     /**
@@ -252,6 +151,7 @@ class String
      * for indicado, input  é preenchido com espaços, se não é preenchido com os
      * caracteres de 'padString' até o limite.
      *
+     * @param string $value String a ser trabalhada
      * @param integer $length Tamanho fixo desejado para a string.
      * @param string $padString[optional] String que preencherá os espaços que faltam
      * para atigir o limite, caso não seja informado, a string é completada com
@@ -262,7 +162,7 @@ class String
      * da string, deixando-a no centralizada.
      * @return void
      */
-    public function pad($length, $padString = false, $type = false)
+    public static function pad($value, $length, $padString = false, $type = false)
     {
         switch ($type) {
             case 'left':
@@ -277,57 +177,62 @@ class String
                 $type = 'STR_PAD_RIGHT';
                 break;
         }
-        $this->_string = str_pad($this->_string, $length, $padString, $type);
+        return str_pad($value, $length, $padString, $type);
     }
 
     /**
      * Remove todas as tags PHP e HTML da string atual.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function stripTags($allowable_tags = false)
+    public static function stripTags($value, $allowable_tags = false)
     {
-        $this->_string = strip_tags($this->_string, $allowable_tags);
+        return strip_tags($value, $allowable_tags);
     }
 
     /**
      * Remove todas as barras de escape da string.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function stripSlashes()
+    public static function stripSlashes($value)
     {
-        $this->_string = stripslashes($this->_string);
+        return stripslashes($value);
     }
 
     /**
      * Adiciona barras de escape ao lado dos caracteres especiais como aspas.
      *
+     * @param string $value String a ser trabalhada
      * @return void.
      */
-    public function addSlashes()
+    public static function addSlashes($value)
     {
-        $this->_string = addslashes($this->_string);
+        return addslashes($value);
     }
 
     /**
      * Altera a string atual, deixando-a mais amigável a humanos, alterando strings
      * como 'Exemplo-De-Texto' ou 'Exemplo_De_Texto' para 'Exemplo de texto'.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function humanize()
+    public static function humanize($value)
     {
-        $this->_string = ucfirst(str_replace(array('_', '-'), ' ', $this->_string));
+        return ucfirst(str_replace(array('_', '-'), ' ', $value));
     }
 
     /**
      * Elimina os caracteres especiais da string atual e utiliza um caracter (por
      * padrão '-') para separar as palavras, e deixa os caracteres todos minúsculos.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function normalize($replace = "-")
+    public static function normalize($value, $replace = "-")
     {
         $map = array(
             '/À|à|Á|á|å|Ã|â|Ã|ã/' => 'a',
@@ -346,18 +251,19 @@ class String
             '/\\s+/' => $replace,
             "/^{$replace}+|{$replace}+$/" => ''
         );
-        $this->_string = strtolower(preg_replace(array_keys($map), array_values($map), $this->_string));
+        return strtolower(preg_replace(array_keys($map), array_values($map), $value));
     }
 
     /**
      * Altera a string atual para o formato CamelCase. Por exemplo, o texto
      * 'Texto exemplo' ficará desta forma: 'TextoExemplo'.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function camelize()
+    public static function camelize($value)
     {
-        $this->_string = str_replace(' ', '', ucwords(str_replace(array('_', '-'), ' ', $this->_string)));
+        return str_replace(' ', '', ucwords(str_replace(array('_', '-'), ' ', $value)));
     }
 
     /**
@@ -366,89 +272,107 @@ class String
      *
      * @return void
      */
-    function underscore()
+    public static function underscore($value)
     {
-        $this->_string = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $this->_string));
+        return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $value));
     }
 
     /**
      * Codifica a string atual para HTML, alterando todos os caracteres especiais
      * para a tabela de códigos dos caracteres.
      *
+     * @param string $value String a ser trabalhada
+     * @param string [$encoding] Códificação utilizada
      * @return void
      */
-    public function htmlEncode()
+    public static function htmlEncode($value, $encoding = null)
     {
-        $this->_string = htmlentities($this->_string, ENT_QUOTES, $this->_encode);
+        return htmlentities($value, ENT_QUOTES, $encoding);
     }
 
     /**
      * Decodifica a string, removendo os códigos de caracteres especiais para
      * caracteres comuns.
      *
+     * @param string $value String a ser trabalhada
+     * @param string [$encoding] Códificação utilizada
      * @return void
      */
-    public function htmlDecode()
+    public static function htmlDecode($value, $encoding = null)
     {
-        $this->_string = html_entity_decode($this->_string, ENT_QUOTES, $this->_encode);
+        return html_entity_decode($value, ENT_QUOTES, $encoding);
     }
 
     /**
      * Torna todos os caracteres minúsculos.
      *
+     * @param string $value String a ser trabalhada
+     * @param string [$encoding] Códificação utilizada
      * @return void
      */
-    public function toLower()
+    public static function toLower($value, $encoding = null)
     {
-        $this->_string = mb_strtolower($this->_string, $this->_encode);
+        if ($encoding !== null) {
+            return mb_strtolower($value, $encoding);
+        }
+        return mb_strtolower($value);
     }
 
     /**
      * Torna todos os caracteres maiúsculos.
      *
+     * @param string $value String a ser trabalhada
+     * @param string [$encoding] Códificação utilizada
      * @return void
      */
-    public function toUpper()
+    public static function toUpper($value, $encoding = null)
     {
-        $this->_string = mb_strtoupper($this->_string, $this->_encode);
+        if ($encoding !== null) {
+            return mb_strtoupper($value, $encoding);
+        }
+        return mb_strtoupper($value);
     }
 
     /**
      * Torna o primeiro caracter da string atual, maiúsculo.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function upperFirst()
+    public static function upperFirst($value)
     {
-        $this->_string = ucfirst($this->_string);
+        return ucfirst($value);
     }
 
     /**
      * Torna o primeiro caracter da string atual, minúsculo.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function lowerFisrt()
+    public static function lowerFisrt($value)
     {
-        $this->_string = lcfirst($this->_string);
+        return lcfirst($value);
     }
 
     /**
      * Torna o primeiro caracter de cada palavra maiúsculo.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function upperWords()
+    public static function upperWords($value)
     {
-        $this->_string = ucwords($this->_string);
+        return ucwords($value);
     }
 
     /**
      * Contabiliza quantas palavras existem na string atual.
      *
+     * @param string $value String a ser trabalhada
      * @return integer
      */
-    public function countWords()
+    public static function countWords($value)
     {
         $aditionalCaracters = 'ÀàÁáåÃâÃã';
         $aditionalCaracters .= 'ÈèÉéêêẽËë';
@@ -457,46 +381,50 @@ class String
         $aditionalCaracters .= 'ÙùÚúůÛûÜü';
         $aditionalCaracters .= 'çÇ';
         $aditionalCaracters .= 'ñÑ';
-        return str_word_count($this->_string, 0, $aditionalCaracters);
+        return str_word_count($value, 0, $aditionalCaracters);
     }
 
     /**
      * Embaralha aleatóriamente os caracteres da string atual.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function shuffle()
+    public static function shuffle($value)
     {
-        $this->_string = str_shuffle($this->_string);
+        return str_shuffle($value);
     }
 
     /**
      * Criptografa a string atual usando o hash md5.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function md5()
+    public static function md5($value)
     {
-        $this->_string = md5($this->_string);
+        return md5($value);
     }
 
     /**
      * Criptografa a string atual usando uma chave como referência.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function crypt($salt)
+    public static function crypt($value, $salt)
     {
-        $this->_string = crypt($this->_string, $salt);
+        return crypt($value, $salt);
     }
 
     /**
      * Troca as quebras de linha por '<br />'.
      *
+     * @param string $value String a ser trabalhada
      * @return void
      */
-    public function newLineToBreak($is_xhtml = true)
+    public static function newLineToBreak($value, $is_xhtml = true)
     {
-        $this->_string = nl2b($this->_string, $is_xhtml);
+        return nl2b($value, $is_xhtml);
     }
 }

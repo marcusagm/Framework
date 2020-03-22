@@ -21,14 +21,29 @@
 class Session
 {
 
-    private function __construct()
-    {
+    private function __construct() { }
 
+    private function __clone() { }
+
+    public static function init()
+    {
+        session_start();
     }
 
-    private function __clone()
+    public static function destroy()
     {
+        session_unset();
+        session_destroy();
+    }
 
+    public static function close()
+    {
+        session_write_close();
+    }
+
+    public static function started()
+    {
+        return isset($_SESSION) && session_id();
     }
 
     public static function setVar($name, $value)
@@ -47,34 +62,17 @@ class Session
 
     public static function getVar($name)
     {
-        if (isset($_SESSION[$name])) {
+        if (self::existsVar($name) === true) {
             return $_SESSION[$name];
         }
-
         return false;
-//		throw new FwException( 'A variável de sessão "' . $name .
-//								'" não existe.' );
     }
 
-    public static function init()
+    public static function existsVar($name)
     {
-        session_start();
-        //session_regenerate_id();
-    }
-
-    public static function destroy()
-    {
-        session_unset();
-        session_destroy();
-    }
-
-    public static function close()
-    {
-        session_write_close();
-    }
-
-    public static function started()
-    {
-        return isset($_SESSION) && session_id();
+        if (isset($_SESSION[$name])) {
+            return true;
+        }
+        return false;
     }
 }

@@ -154,14 +154,12 @@ abstract class Model implements ModelInterface
         $params = array_merge($params, array(null, null, null, null));
 
         // Inicia um objeto String para facilitar no tratamento necessário.
-        $method = new String($method);
         $fields = array();
 
         // Filtra a chamada de método, iniciando pelo mais comum, o findByCampo
-        if ($method->match('/^findBy(.*)/', $fields)) {
+        if (Text::match($method, '/^findBy(.*)/', $fields)) {
             // Trata o nome do metodo para igualar ao campo no banco de dados
-            $field = new String($fields[1]);
-            $field->normalize('_');
+            $field = Text::normalize($fields[1], '_');
 
             // Garante que seja passado um array no segundo parametro do método
             // findBy.
@@ -174,10 +172,9 @@ abstract class Model implements ModelInterface
             return $this->findBy($field, $params[0], $params[1], $params[2]);
 
             // Verifica se o método desejado é o existsThisCampo
-        } elseif ($method->match('/existsThis(.*)/')) {
+        } elseif (Text::match($method, '/existsThis(.*)/')) {
             // Trata o nome do metodo para igualar ao campo no banco de dados
-            $field = new String($fields[1]);
-            $field->normalize('_');
+            $field = Text::normalize($fields[1], '_');
 
             // Chama o método existsThis informando o campo e passando os parametros
             // desejados.
@@ -511,6 +508,28 @@ abstract class Model implements ModelInterface
     }
 
     /**
+     * Realiza buscas na tabela.
+     *
+     * @param array $conditions Condições para executar a busca.
+     * @param string $order Forma de ordenação desejada
+     * @param integer $start Número do registro inicial para retorno
+     * @param integer $limit Limite de registros retornados
+     * @return array
+     */
+    public function findWithData($conditions = array(), $data = array(), $order = null, $start = null, $limit = null)
+    {
+        $where = $conditions ? ' WHERE ' . implode(' AND ', $conditions) : '';
+        $orderby = $order ? ' ORDER BY ' . $order : '';
+        if ($start !== null) {
+            $start = ' LIMIT ' . $start;
+            $limit = $limit ? ', ' . $limit : '';
+        }
+        $sql = "SELECT * FROM {$this->_table->getTableName()} {$where} {$orderby} {$start} {$limit}";
+        $find = $this->fetchResult($sql, $data);
+        return $find;
+    }
+
+    /**
      * Realiza uma busca na tabela através de um atributo específico.
      * Pode ser chamado por 'findByCampo(valor)'.
      *
@@ -532,7 +551,7 @@ abstract class Model implements ModelInterface
      * @param array $conditions Condições para executar a busca.
      * @return array
      */
-    public function getTotal($conditions = array())
+    public function getTotal($conditions = array(), $data = array())
     {
         if ($this->isView === true) {
             $field = "*";
@@ -542,7 +561,7 @@ abstract class Model implements ModelInterface
         $where = $conditions ? ' WHERE ' . implode(' AND ', $conditions) : '';
         $sql = "SELECT COUNT(" . $field . ") as 'total'"
             . " FROM {$this->_table->getTableName()} {$where} LIMIT 0, 1";
-        $find = $this->fetchResult($sql);
+        $find = $this->fetchResult($sql, $data);
         return $find[0]['total'];
     }
 

@@ -33,9 +33,21 @@ if ( \$ifModifiedSince == \$lastModified || \$etagHeader == \$etagFile ) {
        header( 'HTTP/1.1 304 Not Modified' );
        exit ();
 } else {
-	header( 'HTTP/1.1 200 Ok' );
+    header( 'HTTP/1.1 200 Ok' );
 }
+
+if( ini_get('zlib.output_compression' ) ) {
+    ob_start();
+} else {
+    ob_start('ob_gzhandler');
+}
+
 ?>
+$cssContents
+
+<?php
+\$buffer = ob_get_contents();
+ob_end_clean();
+echo \$buffer;
 
 EOF;
-echo $cssContents;
