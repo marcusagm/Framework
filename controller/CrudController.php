@@ -199,6 +199,11 @@ abstract class CrudController extends Controller
         $this->view->record = null;
         $this->view->title = $this->viewTitle;
         $this->view->layout->title = $this->viewTitle;
+        $this->view->layout->headTitle = $this->viewTitle;
+		$this->view->layout->headDescription = '';
+        $this->view->layout->headKeywords = '';
+		$this->view->layout->headImage = '';
+        $this->view->layout->headType = 'website';
         $this->view->isAjaxRequest = $this->isAjaxRequest();
 
         $this->view->message = Session::getVar('flash-message');
@@ -308,6 +313,19 @@ abstract class CrudController extends Controller
             $filter, $sortField . ' ' . $sortOrder, $startPagination, $limit
         );
         $this->view->paginationTotal = $this->getTotalRecords($filter);
+
+        if ($this->module === false) {
+            $this->view->layout->urlCanonical = UrlMaker::toAction(
+                $this->getControllerName(),
+                'index'
+            );
+        } else {
+            $this->view->layout->urlCanonical = UrlMaker::toModuleAction(
+                $this->module,
+                $this->getControllerName(),
+                'index'
+            );
+        }
     }
 
     /**
@@ -367,6 +385,21 @@ abstract class CrudController extends Controller
         $Model = new $this->modelName((int) $id);
 
         $this->view->record = $Model;
+
+        if ($this->module === false) {
+            $this->view->layout->urlCanonical = UrlMaker::toAction(
+                $this->getControllerName(),
+                'view',
+                array($id)
+            );
+        } else {
+            $this->view->layout->urlCanonical = UrlMaker::toModuleAction(
+                $this->module,
+                $this->getControllerName(),
+                'view',
+                array($id)
+            );
+        }
     }
 
     /**
@@ -385,6 +418,19 @@ abstract class CrudController extends Controller
             $this->view->autoLayout = false;
         }
         $this->view->name = 'form';
+
+        if ($this->module === false) {
+            $this->view->layout->urlCanonical = UrlMaker::toAction(
+                $this->getControllerName(),
+                'add'
+            );
+        } else {
+            $this->view->layout->urlCanonical = UrlMaker::toModuleAction(
+                $this->module,
+                $this->getControllerName(),
+                'add'
+            );
+        }
     }
 
     /**
@@ -462,6 +508,21 @@ abstract class CrudController extends Controller
         $this->view->record = $Model;
 
         $this->view->name = 'form';
+
+        if ($this->module === false) {
+            $this->view->layout->urlCanonical = UrlMaker::toAction(
+                $this->getControllerName(),
+                'edit',
+                array($id)
+            );
+        } else {
+            $this->view->layout->urlCanonical = UrlMaker::toModuleAction(
+                $this->module,
+                $this->getControllerName(),
+                'edit',
+                array($id)
+            );
+        }
     }
 
     /**
@@ -613,9 +674,7 @@ abstract class CrudController extends Controller
      * @param int $limit Número máximo de registros na listagem
      * @return array Lista de registros
      */
-    protected function getRecords(
-    $filter = array(), $order = null, $start = null, $limit = null
-    )
+    protected function getRecords( $filter = array(), $order = null, $start = null, $limit = null )
     {
         $Model = new $this->modelName();
         if (method_exists($Model, 'getAllRecords')) {
