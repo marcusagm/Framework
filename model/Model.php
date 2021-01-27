@@ -96,7 +96,7 @@ abstract class Model implements ModelInterface
         // Caso ainda não esteja setada uma tabela, dispara um erro.
         if ($this->_tableName === null) {
             throw new FwException('Foi solicitado a criação de um modelo cujo a
-									tabela não foi indicada.');
+                                    tabela não foi indicada.');
         }
 
         // Inicia uma instancia da tabela utilizada.
@@ -183,7 +183,7 @@ abstract class Model implements ModelInterface
             // Caso o método não exista dispara uma exceção.
         } else {
             throw new FwException('Método "' . $method . '" inesistente para classes
-									de abstração do banco');
+                                    de abstração do banco');
         }
     }
 
@@ -602,14 +602,18 @@ abstract class Model implements ModelInterface
                 $start = round(microtime(true), 4);
                 $statement->execute($data);
                 $end = round(microtime(true), 4);
-                $this->_lastResult = $statement;
-                FwException::setSqlLog($statement->queryString, $end - $start);
+                if ($statement !== false) {
+                    $this->_lastResult = $statement;
+                    FwException::setSqlLog($statement->queryString, $end - $start);
+                }
             } else {
                 $start = round(microtime(true), 4);
                 $result = $Connection->query($query);
                 $end = round(microtime(true), 4);
-                $this->_lastResult = $result;
-                FwException::setSqlLog($result->queryString, $end - $start);
+                if ($result !== false) {
+                    $this->_lastResult = $result;
+                    FwException::setSqlLog($result->queryString, $end - $start);
+                }
             }
 
             $error = $Connection->errorInfo();
@@ -620,7 +624,7 @@ abstract class Model implements ModelInterface
 
             // Caso algum erro tenha ocorrido, dispara uma exceção.
         } catch (PDOException $e) {
-            throw new FwException('Ocorreu um erro ao executar a query: ' .
+            throw new FwException('Ocorreu um erro ao executar a query2: ' .
             $query . ' - Erro: ' . $e->getMessage());
         }
         return $this->_lastResult;

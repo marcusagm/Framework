@@ -112,8 +112,8 @@ class Mapper
         $routeValues = array();
         $keywords = array(
             '/',
-            ':module',
             ':language',
+            ':module',
             ':controller',
             ':action',
             ':params'
@@ -165,6 +165,10 @@ class Mapper
             }
 
             // Obtem configurações fixas de rotas
+            if (isset($activeRoute['language'])) {
+                $this->setLanguage($activeRoute['language']);
+            }
+
             if (isset($activeRoute['module'])) {
                 $this->setModule($activeRoute['module']);
             }
@@ -177,6 +181,10 @@ class Mapper
                 $this->setAction($activeRoute['action']);
             }
 
+            // if ( ( isset($routeValues['language']) && $routeValues['language'] != null ) || ( isset($activeRoute['language']) && $activeRoute['language'] != null ) ) {
+            //     $this->setLanguage( $ConfigCore->getAppLanguage() );
+            // }
+
             // Caso não seja encontrada nenhuma rota válida, faz o roteamento padrão
         } else {
             $params = explode('/', $url);
@@ -184,8 +192,9 @@ class Mapper
             // Verifica se utiliza sistema de tradução.
             if (count($params) > 0 && strpos($params[0], '?') === false) {
                 if ($ConfigCore->getUseTranslations() === true) {
-                    $language = array_shift($params);
-                    $this->setLanguage($language);
+                    $this->setLanguage( $ConfigCore->getAppLanguage() );
+                //     $language = array_shift($params);
+                //     $this->setLanguage($language);
                 }
 
                 $modules = $ConfigRoutes->getModules();

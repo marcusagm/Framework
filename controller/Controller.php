@@ -403,6 +403,13 @@ abstract class Controller extends FwObject
         exit();
     }
 
+    protected function redirectToRoute( $route, $controller = null, $action = null, $params = array(), $module = null, $language = null )
+    {
+        $url = UrlMaker::toRoute($route, $controller, $action, $params, $module, $language);
+        header('Location: ' . $url);
+        exit();
+    }
+
     /**
      * Obtem o nome do Controller da aplicação.
      *

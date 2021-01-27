@@ -52,6 +52,7 @@ class ConfigRoutes extends Config
         $controller = null,
         $action = null,
         $module = null,
+        $language = null,
         $prefix = null
     ) {
         if (substr($path, 0, 1) == '/') {
@@ -63,6 +64,7 @@ class ConfigRoutes extends Config
             'controller' => $controller,
             'action' => $action,
             'module' => $module,
+            'language' => $language,
             'prefix' => $prefix
         );
     }

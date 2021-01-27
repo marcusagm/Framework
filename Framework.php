@@ -189,9 +189,9 @@ final class Framework {
             return true;
         }
 
-        throw new FwException(
-            'Não foi possível encontrar a classe "'. $class . '".'
-        );
+        // throw new FwException(
+        //     'Não foi possível encontrar a classe "'. $class . '".'
+        // );
     }
 
     /**
