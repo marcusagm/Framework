@@ -375,57 +375,24 @@ class Layout extends FwObject
                 }
 
                 $buffer = str_replace("\t", ' ', $buffer);
-                $buffer = str_replace(array("\r\n", "\r"), "\n", $buffer);
+                // Remove a tab
+                $buffer = str_replace("\t", " ", $buffer);
 
-                $buffer = preg_replace('/^([\'"]).*?(?<!\\\\)\\1/s', '\\0', $buffer);
-                $buffer = preg_replace('/^\\\\\//', '\\0', $buffer);
-                $buffer = preg_replace('/^\s*\/\/.*$[\r\n]/m', '', $buffer);
-                $buffer = preg_replace('/^\/\*.*?\*\//s', '', $buffer);
-                $buffer = preg_replace('/\/\*(.*?)\*\//is', '', $buffer);
+                // // Remove comments with "// "
+                // $buffer = preg_replace('/\n(\s+)?\/\/[^\n]*/', "", $buffer);
 
-                // Tenta remover o comentários de final de linha
-                $buffer = preg_replace('/\/\/\s?[\s\d\w,\'\-\+\[\]\(\)\|\*"\.@#$%&:]+$/m', '', $buffer);
+                // // Remove other comments
+                // $buffer = preg_replace("!/\*[^*]*\*+([^/][^*]*\*+)*/!", "", $buffer);
+                // $buffer = preg_replace("/\/\*[^\/]*\*\//", "", $buffer);
+                // $buffer = preg_replace("/\/\*\*((\r\n|\n) \*[^\n]*)+(\r\n|\n) \*\//", "", $buffer);
 
-                $operators = array(
-                    // arithmetic
-                    '+', '-', '*', '/', '%', '++', '--', // @todo: slash can be
-                    // assignment
-                    '=', '+=', '-=', '*=', '/=', '%=',
-                    '<<=', '>>=', '>>>=', '&=', '^=', '|=',
-                    // bitwise
-                    '&', '|', '^', '~', '<<', '>>', '>>>',
-                    // comparison
-                    '==', '===', '!=', '!==', '>', '<', '>=', '<=',
-                    // logical
-                    '&&', '||', '!',
-                    // string
-                    // + and += already added
-                    // member
-                    '.', '[', ']',
-                    // conditional
-                    '?', ':',
-                    // comma
-                    ',',
-                    // function call
-                    '(', ')',
-                    // object literal ({ & } are also used as block delimiter, but
-                    // we can strip whitespace around that too)
-                    '{', '}', ':',
-                    // statement terminator
-                    ';',
-                );
-                $delimiter = array_fill(0, count($operators), '/');
-                $operators = array_map('preg_quote', $operators, $delimiter);
-                $buffer = preg_replace('/^\s*(' . implode('|', $operators) . ')\s/s', '\\1', $buffer);
+                // Remove a carriage return
+                $buffer = str_replace("\r", "", $buffer);
 
-                $operators = array_merge($operators, array('else', 'while', 'catch', 'finally', '$'));
-                $buffer = preg_replace('/^([\)\}])(?!(' . implode('|', $operators) . '))/s', '\\1;', $buffer);
-
-                $buffer = preg_replace('/^\s*\n\s/s', ';', $buffer);
-                $buffer = preg_replace('/^\s+/ms', '', $buffer);
-                $buffer = preg_replace('/^;\}/', '}', $buffer);
-
-                $buffer = str_replace(array(" \n", "\n "), "\n", $buffer);
+                // Remove whitespaces
+                $buffer = preg_replace("/\s+\n/", "\n", $buffer);
+                $buffer = preg_replace("/\n\s+/", "\n ", $buffer);
+                $buffer = preg_replace("/ +/", " ", $buffer);
                 $buffer = preg_replace('/\n+/', "\n", $buffer);
 
                 $jsContents = trim($buffer);
