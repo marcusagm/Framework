@@ -83,7 +83,7 @@ abstract class Config
      * cria e armazena no respectivo atributo. Este método é uma parte da
      * implementação do padrão de projeto Singleton.
      *
-     * @return ConfigDatabase
+     * @return ConfigDatabase|ConfigCore
      */
     public static function getInstance()
     {
