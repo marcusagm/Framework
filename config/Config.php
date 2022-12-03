@@ -46,7 +46,7 @@ abstract class Config
      *
      * @return void
      */
-    final private function __construct()
+    private function __construct()
     {
 
     }
@@ -57,7 +57,7 @@ abstract class Config
      *
      * @return void
      */
-    final private function __clone()
+    private function __clone()
     {
 
     }
@@ -97,7 +97,7 @@ abstract class Config
      * @param mixed $value Novo valor para o atributo.
      * @return void
      */
-    final public function __set($attribute, $value)
+    public function __set($attribute, $value)
     {
         $this->params[$attribute] = $value;
     }
@@ -108,7 +108,7 @@ abstract class Config
      * @param string $attribute Nome do atributo.
      * @return mixed Valor do atributo
      */
-    final public function __get($attribute)
+    public function __get($attribute)
     {
         if (array_key_exists($attribute, $this->params)) {
             return $this->params[$attribute];

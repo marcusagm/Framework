@@ -40,7 +40,7 @@ class ConfigRoutes extends Config
     /**
      *
      * @param type $name
-     * @param type $path
+     * @param string $path
      * @param type $controller
      * @param type $action
      * @param type $module
