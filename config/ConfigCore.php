@@ -173,6 +173,6 @@ class ConfigCore extends Config
 
     public function getReportEmails()
     {
-        return FwException::addEmail();
+        return FwException::getEmails();
     }
 }

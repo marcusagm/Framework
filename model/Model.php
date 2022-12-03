@@ -84,6 +84,9 @@ abstract class Model implements ModelInterface
      */
     private $_lastResult = false;
 
+    private $_useQueue = false;
+    private $_executeQueue = array();
+
     /**
      * Inicia os atributos lendo a estrutura da tabela e gerando um array que é
      * guardada no atributo $schema.
@@ -549,7 +552,7 @@ abstract class Model implements ModelInterface
      * Realiza buscas na tabela e retona o total de registos.
      *
      * @param array $conditions Condições para executar a busca.
-     * @return array
+     * @return integer
      */
     public function getTotal($conditions = array(), $data = array())
     {
@@ -607,13 +610,18 @@ abstract class Model implements ModelInterface
                     FwException::setSqlLog($statement->queryString, $end - $start);
                 }
             } else {
-                $start = round(microtime(true), 4);
-                $result = $Connection->query($query);
-                $end = round(microtime(true), 4);
-                if ($result !== false) {
-                    $this->_lastResult = $result;
-                    FwException::setSqlLog($result->queryString, $end - $start);
+                if ($this->_useQueue === true) {
+                    $this->_executeQueue[] = $query;
+                } else {
+                    $start = round(microtime(true), 4);
+                    $result = $Connection->query($query);
+                    $end = round(microtime(true), 4);
+                    if ($result !== false) {
+                        $this->_lastResult = $result;
+                        FwException::setSqlLog($result->queryString, $end - $start);
+                    }
                 }
+
             }
 
             $error = $Connection->errorInfo();
@@ -671,5 +679,20 @@ abstract class Model implements ModelInterface
         $Connection = $Database->getConnection();
 
         return $Connection->lastInsertId();
+    }
+
+    public function usingQueue($use = true)
+    {
+        $this->_useQueue = $use;
+    }
+
+    public function executeQueue()
+    {
+        if (is_array($this->_executeQueue) === true && count($this->_executeQueue) > 0) {
+            $sqls = join(';', $this->_executeQueue);
+            $this->execute($sqls);
+            return true;
+        }
+        return false;
     }
 }

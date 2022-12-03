@@ -21,7 +21,14 @@
 class FwObject
 {
 
+    /**
+     * @property ConfigCore
+     */
     protected $_app = null;
+
+    /**
+     * @property ConfigCore
+     */
     protected $App = null;
 
     function __construct()
